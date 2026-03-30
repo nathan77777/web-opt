@@ -17,76 +17,7 @@ $error = $_GET['error'] ?? null;
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Backoffice - Connexion</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            min-height: 100vh;
-            display: grid;
-            place-items: center;
-            background: #f6f8fb;
-        }
-
-        .card {
-            width: 100%;
-            max-width: 400px;
-            background: #fff;
-            border: 1px solid #dde3ea;
-            border-radius: 10px;
-            padding: 24px;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.07);
-        }
-
-        h1 {
-            margin-top: 0;
-            font-size: 1.3rem;
-        }
-
-        label {
-            display: block;
-            margin: 12px 0 6px;
-            font-weight: 600;
-        }
-
-        input {
-            width: 100%;
-            box-sizing: border-box;
-            border: 1px solid #c9d3df;
-            border-radius: 8px;
-            padding: 10px;
-            font-size: 1rem;
-        }
-
-        button {
-            margin-top: 16px;
-            width: 100%;
-            padding: 11px;
-            border: 0;
-            border-radius: 8px;
-            background: #0d6efd;
-            color: #fff;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .error {
-            color: #a30000;
-            background: #ffe9e9;
-            border: 1px solid #ffc6c6;
-            border-radius: 8px;
-            padding: 8px 10px;
-            margin-top: 10px;
-            font-size: 0.95rem;
-        }
-
-        .front-link {
-            display: inline-block;
-            margin-top: 14px;
-            color: #334155;
-            text-decoration: none;
-            font-size: 0.92rem;
-        }
-    </style>
+    <link rel="stylesheet" href="../assets/css/backoffice_index.css">
 </head>
 
 <body>
