@@ -146,6 +146,7 @@ function is_local_image(string $url): bool
     <!-- ── Actions ────────────────────────────────────────────────────────── -->
     <div class="actions">
         <a href="form/articles_create.php">+ Nouvel article</a>
+        <a href="form/articles_create.php?id=<?= (int) $article['id'] ?>">Modifier cet article</a>
         <a href="articles_list.php">Liste des articles</a>
     </div>
 

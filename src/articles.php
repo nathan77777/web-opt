@@ -66,8 +66,6 @@ function get_frontoffice_articles(): array
 }
 
 
-
-
 /**
  * Fetch all published articles for the frontoffice.
  */
@@ -170,6 +168,48 @@ function insertArticle(PDO $pdo, array $data): int
     ]);
 
     return (int) $stmt->fetchColumn();
+}
+
+/**
+ * Update an existing article.
+ *
+ * @param PDO   $pdo
+ * @param int   $article_id
+ * @param array $data {
+ *   category_id      : int|null,
+ *   title            : string,
+ *   slug             : string,
+ *   content          : string,
+ *   meta_description : string,
+ *   published_at     : string|null  (SQL datetime or null),
+ *   is_active        : bool,
+ * }
+ */
+function updateArticle(PDO $pdo, int $article_id, array $data): void
+{
+    $stmt = $pdo->prepare("
+        UPDATE articles
+        SET
+            category_id = :category_id,
+            title = :title,
+            slug = :slug,
+            content = :content,
+            meta_description = :meta_description,
+            published_at = :published_at,
+            is_active = :is_active
+        WHERE id = :id
+    ");
+
+    $stmt->execute([
+        ':category_id' => $data['category_id'],
+        ':title' => $data['title'],
+        ':slug' => $data['slug'],
+        ':content' => $data['content'],
+        ':meta_description' => $data['meta_description'],
+        ':published_at' => $data['published_at'],
+        ':is_active' => $data['is_active'] ? 'true' : 'false',
+        ':id' => $article_id,
+    ]);
 }
 
 /**

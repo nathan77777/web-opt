@@ -35,7 +35,6 @@ $articles = get_articles_with_categories();
                 </div>
                 <div class="actions">
                     <a class="action" href="form/articles_create.php">Creer</a>
-                    <a class="action" href="#" aria-disabled="true">Editer (a faire)</a>
                     <a class="action" href="#" aria-disabled="true">Supprimer (a faire)</a>
                     <a class="logout" href="logout.php">Se deconnecter</a>
                 </div>
@@ -81,7 +80,11 @@ $articles = get_articles_with_categories();
                                         <span class="badge inactive">Inactif</span>
                                     <?php endif; ?>
                                 </td>
-                                <td><a href="article_details.php?id=<?= $article['id'] ?>">Details</a></td>
+                                <td>
+                                    <a href="article_details.php?id=<?= $article['id'] ?>">Details</a>
+                                    |
+                                    <a href="form/articles_create.php?id=<?= $article['id'] ?>">Editer</a>
+                                </td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>

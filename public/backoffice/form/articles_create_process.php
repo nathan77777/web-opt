@@ -13,6 +13,9 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
+$article_id = filter_input(INPUT_POST, 'article_id', FILTER_VALIDATE_INT);
+$is_edit_mode = $article_id !== null && $article_id !== false;
+
 // ── Sanitize & validate inputs ────────────────────────────────────────────────
 
 $title = trim($_POST['title'] ?? '');
@@ -24,6 +27,17 @@ $published_at = trim($_POST['published_at'] ?? '');
 $is_active = isset($_POST['is_active']) ? true : false;
 
 $errors = [];
+
+$pdo = getConnection();
+
+if ($is_edit_mode) {
+    $existing_article = getArticleById($pdo, (int) $article_id);
+    if (!$existing_article) {
+        $_SESSION['form_errors'] = ['Article introuvable.'];
+        header('Location: ../articles_list.php');
+        exit;
+    }
+}
 
 if ($title === '') {
     $errors[] = 'Le titre est obligatoire.';
@@ -130,28 +144,41 @@ if (!empty($errors)) {
         'published_at' => $published_at,
         'is_active' => $is_active,
     ];
-    header('Location: articles_create.php');
+    $redirect = 'articles_create.php' . ($is_edit_mode ? '?id=' . (int) $article_id : '');
+    header('Location: ' . $redirect);
     exit;
 }
 
 // ── Persist to database ───────────────────────────────────────────────────────
 
-$pdo = getConnection();
 $user_id = $_SESSION['user_id'];
 
 try {
     $pdo->beginTransaction();
 
-    $article_id = insertArticle($pdo, [
-        'category_id' => $category_id,
-        'title' => $title,
-        'slug' => $slug,
-        'content' => $content,
-        'meta_description' => $meta_description,
-        'published_at' => $published_at_sql,
-        'author_id' => $user_id,
-        'is_active' => $is_active,
-    ]);
+    if ($is_edit_mode) {
+        $article_id = (int) $article_id;
+        updateArticle($pdo, $article_id, [
+            'category_id' => $category_id,
+            'title' => $title,
+            'slug' => $slug,
+            'content' => $content,
+            'meta_description' => $meta_description,
+            'published_at' => $published_at_sql,
+            'is_active' => $is_active,
+        ]);
+    } else {
+        $article_id = insertArticle($pdo, [
+            'category_id' => $category_id,
+            'title' => $title,
+            'slug' => $slug,
+            'content' => $content,
+            'meta_description' => $meta_description,
+            'published_at' => $published_at_sql,
+            'author_id' => $user_id,
+            'is_active' => $is_active,
+        ]);
+    }
 
     foreach ($uploaded_files as $url) {
         insertArticleImage($pdo, $article_id, $url);
@@ -184,12 +211,15 @@ try {
         'published_at' => $published_at,
         'is_active' => $is_active,
     ];
-    header('Location: articles_create.php');
+    $redirect = 'articles_create.php' . ($is_edit_mode ? '?id=' . (int) $article_id : '');
+    header('Location: ' . $redirect);
     exit;
 }
 
 // ── Success ───────────────────────────────────────────────────────────────────
 
-$_SESSION['flash_success'] = 'Article créé avec succès.';
+$_SESSION['flash_success'] = $is_edit_mode
+    ? 'Article mis à jour avec succès.'
+    : 'Article créé avec succès.';
 header('Location: ../articles_list.php');
 exit;

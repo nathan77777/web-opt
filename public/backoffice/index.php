@@ -30,10 +30,10 @@ $error = $_GET['error'] ?? null;
 
         <form method="post" action="login.php">
             <label for="email">Email</label>
-            <input id="email" name="email" type="email" required>
+            <input id="email" name="email" type="email" value="admin@example.com" required>
 
             <label for="password">Mot de passe</label>
-            <input id="password" name="password" type="password" required>
+            <input id="password" name="password" type="password" value="admin123" required>
 
             <button type="submit">Connexion</button>
         </form>
