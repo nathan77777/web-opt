@@ -98,6 +98,41 @@ function getAllArticles(PDO $pdo): array
 }
 
 /**
+ * Fetch a single article by id, with category and author info.
+ * Returns false if not found.
+ */
+function getArticleById(PDO $pdo, int $id): array|false
+{
+    $stmt = $pdo->prepare("
+        SELECT a.*,
+               c.libelles AS category_name,
+               u.email    AS author_email
+        FROM articles a
+        LEFT JOIN categories c ON c.id = a.category_id
+        LEFT JOIN users      u ON u.id = a.author_id
+        WHERE a.id = :id
+    ");
+    $stmt->execute([':id' => $id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+/**
+ * Fetch all images linked to a given article.
+ */
+function getArticleImages(PDO $pdo, int $article_id): array
+{
+    $stmt = $pdo->prepare("
+        SELECT id, image_url, created_at
+        FROM images
+        WHERE article_id = :article_id
+        ORDER BY created_at ASC
+    ");
+    $stmt->execute([':article_id' => $article_id]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
+/**
  * Insert a new article and return its new id.
  *
  * @param PDO   $pdo

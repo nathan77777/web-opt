@@ -239,6 +239,7 @@ $articles = get_articles_with_categories();
                                         <span class="badge inactive">Inactif</span>
                                     <?php endif; ?>
                                 </td>
+                                <td><a href="article_details.php?id=<?= $article['id'] ?>">Details</a></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
