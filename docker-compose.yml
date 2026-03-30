@@ -1,0 +1,35 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: webopt_app
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: "5432"
+      DB_NAME: webopt
+      DB_USER: postgres
+      DB_PASS: nathan
+    ports:
+      - "9000:80"
+    volumes:
+      - ./:/var/www/html
+
+  db:
+    image: postgres:15
+    container_name: webopt_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: webopt
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: nathan
+    ports:
+      - "5433:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./sql/01_login.sql:/docker-entrypoint-initdb.d/01_login.sql:ro
+
+volumes:
+  db_data:

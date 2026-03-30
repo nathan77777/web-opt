@@ -1,0 +1,34 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# PHP / Composer
+vendor/
+composer.phar
+
+# Runtime files
+*.log
+logs/
+tmp/
+cache/
+
+# Session and upload artifacts (if created at runtime)
+public/uploads/
+public/sessions/
+
+# Test / coverage artifacts
+coverage/
+.phpunit.result.cache
+
+# Docker local overrides
+docker-compose.override.yml
