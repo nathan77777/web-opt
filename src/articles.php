@@ -230,3 +230,21 @@ function insertArticleImage(PDO $pdo, int $article_id, string $image_url): void
         ':image_url' => $image_url,
     ]);
 }
+
+function getArticleBySlug(PDO $pdo, string $slug): array|false
+{
+    $stmt = $pdo->prepare("
+        SELECT a.*,
+               c.libelles AS category_name,
+               u.email    AS author_email
+        FROM articles a
+        LEFT JOIN categories c ON c.id = a.category_id
+        LEFT JOIN users      u ON u.id = a.author_id
+        WHERE a.slug = :slug
+          AND a.is_active = TRUE
+          AND a.published_at IS NOT NULL
+          AND a.published_at <= NOW()
+    ");
+    $stmt->execute([':slug' => $slug]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
