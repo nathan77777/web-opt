@@ -7,7 +7,7 @@ require_once __DIR__ . '/database.php';
 function require_guest(): void
 {
     if (!empty($_SESSION['user_id'])) {
-        header('Location: dashboard.php');
+        header('Location: /backoffice/articles.php');
         exit;
     }
 }
@@ -15,7 +15,7 @@ function require_guest(): void
 function require_auth(): void
 {
     if (empty($_SESSION['user_id'])) {
-        header('Location: index.php');
+        header('Location: /backoffice/');
         exit;
     }
 }
