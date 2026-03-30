@@ -1,26 +1,29 @@
-# Projet PHP natif + PostgreSQL (login)
+# Projet PHP natif + PostgreSQL (frontoffice / backoffice)
 
-Mini projet sans dependances externes:
+Mini projet sans dependances externes avec:
 
-- page de login
-- traitement du formulaire
-- redirection en cas de succes
-- protection de la page connectee
+- frontoffice public (liste des articles publies)
+- backoffice avec authentification
+- page protegee (liste des articles)
+- stack Docker PHP + PostgreSQL
 
-## Arborescence
+## Structure actuelle
 
-- `public/index.php` : formulaire de connexion
-- `public/login.php` : traitement POST login
-- `public/dashboard.php` : page protegee
-- `public/logout.php` : deconnexion
-- `config/database.php` : connexion PostgreSQL
-- `config/auth.php` : logique d'authentification
-- `sql/01_login.sql` : script SQL login (utilise par Docker)
-- `sql/script.sql` : script SQL metier existant (optionnel)
-- `Dockerfile` : image PHP avec extension PostgreSQL
+- `public/index.php` : redirection vers `/frontoffice/`
+- `public/frontoffice/index.php` : affichage frontoffice
+- `public/backoffice/index.php` : formulaire de connexion
+- `public/backoffice/login.php` : traitement POST du login
+- `public/backoffice/articles.php` : page protegee
+- `public/backoffice/logout.php` : deconnexion
+- `src/database.php` : connexion PostgreSQL
+- `src/auth.php` : logique d'authentification (login / guard / logout)
+- `src/articles.php` : requetes articles frontoffice/backoffice
+- `sql/01_init_tables.sql` : creation tables + donnees de demo
+- `docker/php/Dockerfile` : image PHP Apache avec extension pgsql
+- `docker/php/vhost.conf` : configuration Apache
 - `docker-compose.yml` : stack app + PostgreSQL
 
-## Prerequis
+## Prerequis (execution locale sans Docker)
 
 - PHP 8+
 - Extension PostgreSQL pour PHP (`pgsql`)
@@ -32,7 +35,7 @@ Exemple avec `psql`:
 
 ```bash
 createdb webopt
-psql -d webopt -f sql/01_login.sql
+psql -d webopt -f sql/01_init_tables.sql
 ```
 
 ## 2) Variables de connexion DB (optionnel)
@@ -63,7 +66,8 @@ php -S localhost:8000 -t public
 
 Puis ouvre:
 
-- http://localhost:8000
+- Frontoffice: http://localhost:8000/frontoffice/
+- Backoffice (login): http://localhost:8000/backoffice/
 
 Compte de test:
 
@@ -80,7 +84,14 @@ docker compose up --build
 
 Puis ouvrir:
 
-- http://localhost:8000
+- Application: http://localhost:9000
+- Frontoffice: http://localhost:9000/frontoffice/
+- Backoffice (login): http://localhost:9000/backoffice/
+
+Ports exposes:
+
+- App PHP/Apache: `9000` (hote) -> `80` (conteneur)
+- PostgreSQL: `5433` (hote) -> `5432` (conteneur)
 
 Arreter les conteneurs:
 
@@ -88,7 +99,7 @@ Arreter les conteneurs:
 docker compose down
 ```
 
-Si tu veux reinitialiser la base (et rejouer `sql/01_login.sql`):
+Si tu veux reinitialiser la base (et rejouer `sql/01_init_tables.sql`):
 
 ```bash
 docker compose down -v

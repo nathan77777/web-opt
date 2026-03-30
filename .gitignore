@@ -32,3 +32,5 @@ coverage/
 
 # Docker local overrides
 docker-compose.override.yml
+
+structure.txt

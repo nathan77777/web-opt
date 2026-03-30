@@ -64,3 +64,94 @@ function get_frontoffice_articles(): array
 
     return pg_fetch_all($result) ?: [];
 }
+
+
+
+
+/**
+ * Fetch all published articles for the frontoffice.
+ */
+function getPublishedArticles(PDO $pdo): array
+{
+    $stmt = $pdo->query("
+        SELECT a.*, c.libelles AS category_name
+        FROM articles a
+        LEFT JOIN categories c ON c.id = a.category_id
+        WHERE a.is_active = TRUE AND a.published_at IS NOT NULL AND a.published_at <= NOW()
+        ORDER BY a.published_at DESC
+    ");
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+/**
+ * Fetch all articles for the backoffice (no filter).
+ */
+function getAllArticles(PDO $pdo): array
+{
+    $stmt = $pdo->query("
+        SELECT a.*, c.libelles AS category_name
+        FROM articles a
+        LEFT JOIN categories c ON c.id = a.category_id
+        ORDER BY a.created_at DESC
+    ");
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+/**
+ * Insert a new article and return its new id.
+ *
+ * @param PDO   $pdo
+ * @param array $data {
+ *   category_id      : int|null,
+ *   title            : string,
+ *   slug             : string,
+ *   content          : string,
+ *   meta_description : string,
+ *   published_at     : string|null  (SQL datetime or null),
+ *   author_id        : int,
+ *   is_active        : bool,
+ * }
+ * @return int  The id of the newly created article.
+ */
+function insertArticle(PDO $pdo, array $data): int
+{
+    $stmt = $pdo->prepare("
+        INSERT INTO articles
+            (category_id, title, slug, content, meta_description, published_at, author_id, is_active)
+        VALUES
+            (:category_id, :title, :slug, :content, :meta_description, :published_at, :author_id, :is_active)
+        RETURNING id
+    ");
+
+    $stmt->execute([
+        ':category_id' => $data['category_id'],
+        ':title' => $data['title'],
+        ':slug' => $data['slug'],
+        ':content' => $data['content'],
+        ':meta_description' => $data['meta_description'],
+        ':published_at' => $data['published_at'],
+        ':author_id' => $data['author_id'],
+        ':is_active' => $data['is_active'] ? 'true' : 'false',
+    ]);
+
+    return (int) $stmt->fetchColumn();
+}
+
+/**
+ * Insert one image row linked to an article.
+ *
+ * @param PDO    $pdo
+ * @param int    $article_id
+ * @param string $image_url   Relative URL stored in DB, e.g. /uploads/articles/abc123.jpg
+ */
+function insertArticleImage(PDO $pdo, int $article_id, string $image_url): void
+{
+    $stmt = $pdo->prepare("
+        INSERT INTO images (article_id, image_url)
+        VALUES (:article_id, :image_url)
+    ");
+    $stmt->execute([
+        ':article_id' => $article_id,
+        ':image_url' => $image_url,
+    ]);
+}

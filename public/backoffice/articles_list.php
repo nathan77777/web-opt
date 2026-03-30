@@ -192,7 +192,7 @@ $articles = get_articles_with_categories();
                     </p>
                 </div>
                 <div class="actions">
-                    <a class="action" href="#" aria-disabled="true">Creer (a faire)</a>
+                    <a class="action" href="form/articles_create.php">Creer</a>
                     <a class="action" href="#" aria-disabled="true">Editer (a faire)</a>
                     <a class="action" href="#" aria-disabled="true">Supprimer (a faire)</a>
                     <a class="logout" href="logout.php">Se deconnecter</a>

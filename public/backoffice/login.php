@@ -24,5 +24,5 @@ if (!attempt_login($email, $password)) {
     exit;
 }
 
-header('Location: /backoffice/articles.php');
+header('Location: /backoffice/articles_list.php');
 exit;
