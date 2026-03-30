@@ -1,0 +1,8 @@
+User-agent: *
+Disallow: /backoffice/
+Disallow: /src/
+Disallow: /sql/
+Allow: /guerre-en-iran/
+Allow: /assets/
+
+Sitemap: https://iraninfo.local/sitemap.xml
