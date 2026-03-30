@@ -1,0 +1,22 @@
+Options -Indexes
+RewriteEngine On
+
+# ============================================
+# SITEMAP
+# ============================================
+RewriteRule ^sitemap\.xml$ sitemap.xml.php [L]
+
+# ============================================
+# FRONTOFFICE — Liste des articles
+# ============================================
+RewriteRule ^guerre-en-iran/?$ frontoffice/index.php [L]
+
+# ============================================
+# FRONTOFFICE — Détail d'un article
+# ============================================
+RewriteRule ^guerre-en-iran/([a-z0-9-]+)/?$ frontoffice/article.php?slug=$1 [L,QSA]
+
+# ============================================
+# BACKOFFICE — Protection
+# ============================================
+RewriteRule ^backoffice/(.*)$ backoffice/$1 [L]
