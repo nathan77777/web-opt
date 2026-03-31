@@ -80,6 +80,75 @@ const UPLOAD_URL_BASE = '/uploads/articles/';
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
 const ALLOWED_MIME = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
 
+// ── Image compression settings ───────────────────────────────────────────────
+
+const MAX_IMAGE_WIDTH = 1920; // px — images wider than this are downscaled
+const MAX_IMAGE_HEIGHT = 1080; // px
+const JPEG_QUALITY = 82;   // 0–100  (82 is a good size/quality balance)
+const PNG_COMPRESSION = 6;    // 0–9    (zlib level; 6 = default)
+const WEBP_QUALITY = 82;   // 0–100
+
+/**
+ * Compress and optionally resize an uploaded image in-place (overwrites $dest).
+ *
+ * - JPEG / WEBP: re-encoded at the configured quality level.
+ * - PNG         : re-encoded with the configured zlib compression level.
+ * - GIF         : left untouched (GD strips animation; skip recompression).
+ *
+ * Returns true on success, false if GD is unavailable or the operation fails.
+ * On failure the original file at $dest is preserved.
+ */
+function compressImage(string $dest, string $mime): bool
+{
+    if (!extension_loaded('gd')) {
+        return false;
+    }
+
+    $src = match ($mime) {
+        'image/jpeg' => @imagecreatefromjpeg($dest),
+        'image/png' => @imagecreatefrompng($dest),
+        'image/webp' => @imagecreatefromwebp($dest),
+        default => false,   // GIF: skip
+    };
+
+    if ($src === false) {
+        return false;
+    }
+
+    // ── Resize if the image exceeds the configured dimensions ────────────────
+    $orig_w = imagesx($src);
+    $orig_h = imagesy($src);
+
+    $ratio = min(MAX_IMAGE_WIDTH / $orig_w, MAX_IMAGE_HEIGHT / $orig_h, 1.0);
+    $new_w = (int) round($orig_w * $ratio);
+    $new_h = (int) round($orig_h * $ratio);
+
+    if ($new_w !== $orig_w || $new_h !== $orig_h) {
+        $resized = imagecreatetruecolor($new_w, $new_h);
+
+        // Preserve alpha channel for PNG
+        if ($mime === 'image/png') {
+            imagealphablending($resized, false);
+            imagesavealpha($resized, true);
+        }
+
+        imagecopyresampled($resized, $src, 0, 0, 0, 0, $new_w, $new_h, $orig_w, $orig_h);
+        imagedestroy($src);
+        $src = $resized;
+    }
+
+    // ── Re-encode to the destination path ────────────────────────────────────
+    $ok = match ($mime) {
+        'image/jpeg' => imagejpeg($src, $dest, JPEG_QUALITY),
+        'image/png' => imagepng($src, $dest, PNG_COMPRESSION),
+        'image/webp' => imagewebp($src, $dest, WEBP_QUALITY),
+        default => false,
+    };
+
+    imagedestroy($src);
+    return $ok;
+}
+
 $uploaded_files = []; // Keyed by original input index; value = final relative URL path
 
 if (!empty($_FILES['images']['name'][0])) {
@@ -134,6 +203,9 @@ if (!empty($_FILES['images']['name'][0])) {
             $errors[] = "Impossible de déplacer le fichier « $file_name_raw » sur le serveur.";
             continue;
         }
+
+        // Compress / resize the image (best-effort — keeps original if GD fails)
+        compressImage($dest, $mime);
 
         $uploaded_files[$i] = UPLOAD_URL_BASE . $safe_name;
     }
