@@ -121,27 +121,41 @@ if ($article !== null) {
                 "@context": "https://schema.org",
                 "@type": "NewsArticle",
                 "headline": <?= json_encode((string) $article['title'], JSON_UNESCAPED_UNICODE) ?>,
-            "description": <?= json_encode((string) $article['meta_description'], JSON_UNESCAPED_UNICODE) ?>,
-            "url": <?= json_encode($canonical_url) ?>,
-            <?php if (!empty($published_iso)): ?>
-                "datePublished": <?= json_encode($published_iso) ?>,
-            <?php endif; ?>
-            <?php if (!empty($og_image)): ?>
-                "image": <?= json_encode((string) $article['main_image_url']) ?>,
-            <?php endif; ?>
-            <?php if (!empty($article['author_email'])): ?>
-                "author": {
-                    "@type": "Person",
-                    "email": <?= json_encode((string) $article['author_email'], JSON_UNESCAPED_UNICODE) ?>
-                },
-            <?php endif; ?>
-            "publisher": {
-                "@type": "Organization",
-                "name": <?= json_encode($site_name, JSON_UNESCAPED_UNICODE) ?>
+                "description": <?= json_encode((string) $article['meta_description'], JSON_UNESCAPED_UNICODE) ?>,
+                "url": <?= json_encode($canonical_url) ?>,
+                <?php if (!empty($published_iso)): ?>
+                    "datePublished": <?= json_encode($published_iso) ?>,
+                <?php endif; ?>
+                <?php if (!empty($og_image)): ?>
+                    "image": <?= json_encode((string) $article['main_image_url']) ?>,
+                <?php endif; ?>
+                <?php if (!empty($article['author_email'])): ?>
+                    "author": {
+                        "@type": "Person",
+                        "email": <?= json_encode((string) $article['author_email'], JSON_UNESCAPED_UNICODE) ?>
+                    },
+                <?php endif; ?>
+                "publisher": {
+                    "@type": "Organization",
+                    "name": <?= json_encode($site_name, JSON_UNESCAPED_UNICODE) ?>
+                }
             }
-        }
         </script>
     <?php endif; ?>
+
+    <!-- Preconnect pour réduire la latence DNS/TLS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Chargement non-bloquant — 3 familles, weights réduits au strict nécessaire -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,400&family=DM+Sans:wght@400;500;600&display=swap"
+          media="print"
+          onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet"
+              href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,400&family=DM+Sans:wght@400;500;600&display=swap">
+    </noscript>
 
     <link rel="stylesheet" href="../assets/css/frontoffice_article_details.css">
 </head>

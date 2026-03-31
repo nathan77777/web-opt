@@ -4,7 +4,6 @@
     --bg: #f4f3f0;
     --bg-panel: #ffffff;
     --bg-input: #fafaf9;
-    --bg-surface: #f7f6f3;
     --border: #e2e0db;
     --border-soft: #eeece8;
     --border-focus: #4f46e5;
@@ -40,14 +39,18 @@ body {
 }
 
 /* ── EN-TÊTE ── */
+/* Changement : flex row pour aligner le lien retour et le h1 sur la même ligne */
 .page-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
     margin-bottom: 24px;
 }
 
 h1 {
-    margin: 0 0 14px;
+    margin: 0;
     font-family: 'Syne', sans-serif;
-    font-size: 1.4rem;
+    font-size: 1.35rem;
     font-weight: 700;
     color: var(--text);
     letter-spacing: -0.02em;
@@ -57,7 +60,7 @@ h1 {
 .back-link {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
     color: var(--text-muted);
     text-decoration: none;
     font-size: 0.78rem;
@@ -66,6 +69,7 @@ h1 {
     border: 1px solid var(--border);
     border-radius: var(--radius);
     background: #fff;
+    white-space: nowrap;
     transition: background var(--transition), color var(--transition), border-color var(--transition);
 }
 
@@ -112,22 +116,24 @@ h1 {
 }
 
 /* ── PANEL FORMULAIRE ── */
+/* Changement : ombre allégée, moins lourde */
 .panel {
     background: var(--bg-panel);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
     padding: 32px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 6px 20px rgba(0,0,0,0.05);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.04);
 }
 
 /* ── SÉPARATEURS DE SECTION ── */
+/* Changement : margin-top réduit à 28px, margin-bottom à 16px */
 .section-title {
     font-size: 0.67rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.12em;
     color: var(--text-subtle);
-    margin: 30px 0 18px;
+    margin: 28px 0 16px;
     padding-bottom: 9px;
     border-bottom: 1px solid var(--border-soft);
     display: flex;
@@ -146,17 +152,18 @@ h1 {
 }
 
 /* ── CHAMPS ── */
+/* Changement : espacement légèrement réduit à 18px */
 .field {
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 }
 
 .field:last-child { margin-bottom: 0; }
 
 label {
     display: block;
-    margin-bottom: 7px;
+    margin-bottom: 6px;
     font-weight: 600;
-    font-size: 0.78rem;
+    font-size: 0.75rem;
     color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.07em;
@@ -168,6 +175,7 @@ label .required {
 }
 
 /* ── INPUTS TEXTE / SELECT / TEXTAREA ── */
+/* Changement : font-size harmonisé à 0.875rem */
 input[type="text"],
 input[type="datetime-local"],
 select,
@@ -176,7 +184,7 @@ textarea {
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 10px 13px;
-    font-size: 0.9rem;
+    font-size: 0.875rem;
     font-family: inherit;
     color: var(--text);
     background: var(--bg-input);
@@ -201,10 +209,10 @@ textarea::placeholder {
 
 textarea {
     resize: vertical;
-    min-height: 220px;
+    min-height: 200px;
     line-height: 1.65;
     font-family: 'DM Mono', monospace;
-    font-size: 0.85rem;
+    font-size: 0.83rem;
     color: #3f3f46;
 }
 
@@ -220,7 +228,7 @@ small {
     display: block;
     margin-top: 5px;
     color: var(--text-subtle);
-    font-size: 0.75rem;
+    font-size: 0.73rem;
     line-height: 1.5;
 }
 
@@ -230,7 +238,7 @@ small {
     align-items: center;
     gap: 10px;
     cursor: pointer;
-    font-size: 0.88rem;
+    font-size: 0.875rem;
     font-weight: 500;
     color: var(--text);
     text-transform: none;
@@ -275,7 +283,6 @@ input[type="file"]:focus {
     margin-top: 10px;
 }
 
-/* Styles pour les boutons de choix d'image générés par JS */
 #main-image-choices label {
     display: block;
     text-transform: none;
@@ -301,28 +308,29 @@ input[type="file"]:focus {
 }
 
 /* ── BOUTON SUBMIT ── */
+/* Changement : padding et min-height légèrement réduits, ombre adoucie */
 .btn-submit {
     display: inline-flex;
     align-items: center;
     gap: 8px;
     margin-top: 10px;
-    padding: 12px 26px;
+    padding: 11px 24px;
     border: none;
     border-radius: var(--radius);
     background: var(--accent);
     color: #ffffff;
     font-family: inherit;
     font-weight: 600;
-    font-size: 0.9rem;
+    font-size: 0.875rem;
     cursor: pointer;
     transition: background var(--transition), box-shadow var(--transition), transform var(--transition);
     letter-spacing: 0.01em;
-    min-height: 46px;
+    min-height: 44px;
 }
 
 .btn-submit:hover {
     background: var(--accent-hover);
-    box-shadow: 0 4px 16px rgba(79, 70, 229, 0.28);
+    box-shadow: 0 4px 14px rgba(79, 70, 229, 0.26);
 }
 
 .btn-submit:active {
@@ -337,7 +345,14 @@ input[type="file"]:focus {
         border-radius: 12px;
     }
 
-    h1 { font-size: 1.2rem; }
+    h1 { font-size: 1.15rem; }
+
+    /* Sur mobile, en-tête en colonne */
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
 
     .btn-submit {
         width: 100%;
