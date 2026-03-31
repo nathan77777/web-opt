@@ -1,32 +1,41 @@
-Options +FollowSymlinks
-RewriteEngine on
-RewriteRule ^pages/article-([_a-z0-9-]+)$ frontoffice/article_details.php?slug=$1 [QSA,L,NC]
-
-
+Options -Indexes
 Options +FollowSymlinks
 RewriteEngine On
-RewriteRule ^guerre-iran$ frontoffice/articles_list.php [L]
 
+# ============================================
+# SITEMAP
+# ============================================
+RewriteRule ^sitemap\.xml$ sitemap.xml.php [L]
+
+# ============================================
+# FRONTOFFICE — Liste des articles
+# ============================================
+RewriteRule ^guerre-iran/?$ frontoffice/articles_list.php [L]
+
+# ============================================
+# FRONTOFFICE — Détail d'un article
+# ============================================
+RewriteRule ^guerre-iran/([a-z0-9-]+)/?$ frontoffice/article_details.php?slug=$1 [QSA,L,NC]
+
+# ============================================
+# CACHE
+# ============================================
 <IfModule mod_expires.c>
     ExpiresActive On
-    
-    # Cache pour les images (1 an)
     ExpiresByType image/jpg "access plus 1 year"
     ExpiresByType image/jpeg "access plus 1 year"
     ExpiresByType image/gif "access plus 1 year"
     ExpiresByType image/png "access plus 1 year"
     ExpiresByType image/webp "access plus 1 year"
-    
-    # Cache pour le CSS et le JS (1 mois)
     ExpiresByType text/css "access plus 1 month"
     ExpiresByType application/javascript "access plus 1 month"
-    
-    # Cache par défaut (2 jours)
     ExpiresDefault "access plus 2 days"
 </IfModule>
 
+# ============================================
+# COMPRESSION GZIP
+# ============================================
 <IfModule mod_deflate.c>
-    # Compresser le HTML, CSS, JavaScript, Text, XML et fonts
     AddOutputFilterByType DEFLATE application/javascript
     AddOutputFilterByType DEFLATE application/rss+xml
     AddOutputFilterByType DEFLATE application/vnd.ms-fontobject
