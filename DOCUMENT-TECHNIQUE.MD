@@ -1,5 +1,9 @@
 # Documentation technique
 
+## ETU:
+- 3097 - Andrianiaina Diay Nathan
+- 3159 - Rakotonomenjanahary Rindranavalona Raphael
+
 ## lancement projet
 ```bash
 docker compose up -d
@@ -13,3 +17,6 @@ http://localhost:9000/backoffice/
 
 ## lien github
 https://github.com/nathan77777/web-opt.git
+
+## Schema de modele de tables
+![schema](./model-tables.png)
