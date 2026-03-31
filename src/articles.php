@@ -120,7 +120,7 @@ function getArticleById(PDO $pdo, int $id): array|false
 function getArticleImages(PDO $pdo, int $article_id): array
 {
     $stmt = $pdo->prepare("
-        SELECT id, image_url, created_at
+        SELECT id, image_url, alt_text, created_at
         FROM images
         WHERE article_id = :article_id
         ORDER BY created_at ASC
@@ -141,6 +141,7 @@ function getArticleImages(PDO $pdo, int $article_id): array
  *   content          : string,
  *   meta_description : string,
  *   published_at     : string|null  (SQL datetime or null),
+ *   first_image_url  : string|null,
  *   author_id        : int,
  *   is_active        : bool,
  * }
@@ -150,9 +151,9 @@ function insertArticle(PDO $pdo, array $data): int
 {
     $stmt = $pdo->prepare("
         INSERT INTO articles
-            (category_id, title, slug, content, meta_description, published_at, author_id, is_active)
+            (category_id, title, slug, content, meta_description, published_at, first_image_url, author_id, is_active)
         VALUES
-            (:category_id, :title, :slug, :content, :meta_description, :published_at, :author_id, :is_active)
+            (:category_id, :title, :slug, :content, :meta_description, :published_at, :first_image_url, :author_id, :is_active)
         RETURNING id
     ");
 
@@ -163,6 +164,7 @@ function insertArticle(PDO $pdo, array $data): int
         ':content' => $data['content'],
         ':meta_description' => $data['meta_description'],
         ':published_at' => $data['published_at'],
+        ':first_image_url' => $data['first_image_url'],
         ':author_id' => $data['author_id'],
         ':is_active' => $data['is_active'] ? 'true' : 'false',
     ]);
@@ -182,6 +184,7 @@ function insertArticle(PDO $pdo, array $data): int
  *   content          : string,
  *   meta_description : string,
  *   published_at     : string|null  (SQL datetime or null),
+ *   first_image_url  : string|null,
  *   is_active        : bool,
  * }
  */
@@ -196,6 +199,7 @@ function updateArticle(PDO $pdo, int $article_id, array $data): void
             content = :content,
             meta_description = :meta_description,
             published_at = :published_at,
+            first_image_url = :first_image_url,
             is_active = :is_active
         WHERE id = :id
     ");
@@ -207,6 +211,7 @@ function updateArticle(PDO $pdo, int $article_id, array $data): void
         ':content' => $data['content'],
         ':meta_description' => $data['meta_description'],
         ':published_at' => $data['published_at'],
+        ':first_image_url' => $data['first_image_url'],
         ':is_active' => $data['is_active'] ? 'true' : 'false',
         ':id' => $article_id,
     ]);

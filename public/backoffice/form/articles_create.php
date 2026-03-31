@@ -39,6 +39,7 @@ $form_defaults = [
     'content' => $article['content'] ?? '',
     'published_at' => '',
     'is_active' => !empty($article['is_active']),
+    'main_image_index' => '0',
 ];
 
 if (!empty($article['published_at'])) {
@@ -137,11 +138,65 @@ $submit_label = $is_edit_mode ? 'Mettre à jour l\'article' : 'Créer l\'article
         </p>
 
         <p>
+            <strong>Image principale</strong><br>
+            <small>Choisissez l'image principale parmi les fichiers sélectionnés.</small>
+            <input type="hidden" id="main_image_index" name="main_image_index"
+                value="<?= htmlspecialchars((string) $form_data['main_image_index']) ?>">
+        <div id="main-image-choices" style="margin-top:8px;"></div>
+        </p>
+
+        <p>
             <button type="submit"><?= htmlspecialchars($submit_label) ?></button>
         </p>
     </form>
 
     <script>
+        const imagesInput = document.getElementById('images');
+        const mainImageIndexInput = document.getElementById('main_image_index');
+        const mainImageChoices = document.getElementById('main-image-choices');
+
+        function renderMainImageChoices() {
+            const files = imagesInput.files;
+
+            if (!files || files.length === 0) {
+                mainImageChoices.innerHTML = '<em>Aucune image sélectionnée.</em>';
+                mainImageIndexInput.value = '0';
+                return;
+            }
+
+            const selectedIndex = Number.parseInt(mainImageIndexInput.value, 10);
+            const safeIndex = Number.isInteger(selectedIndex) && selectedIndex >= 0 && selectedIndex < files.length
+                ? selectedIndex
+                : 0;
+
+            let html = '';
+            for (let i = 0; i < files.length; i++) {
+                const checked = i === safeIndex ? 'checked' : '';
+                const fileName = files[i].name
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#039;');
+
+                html += `<label style="display:block;margin-bottom:4px;"><input type="radio" name="main_image_choice" value="${i}" ${checked}> ${fileName}</label>`;
+            }
+
+            mainImageChoices.innerHTML = html;
+
+            const selected = mainImageChoices.querySelector('input[name="main_image_choice"]:checked');
+            mainImageIndexInput.value = selected ? selected.value : '0';
+        }
+
+        imagesInput.addEventListener('change', renderMainImageChoices);
+        mainImageChoices.addEventListener('change', function (event) {
+            if (event.target && event.target.name === 'main_image_choice') {
+                mainImageIndexInput.value = event.target.value;
+            }
+        });
+
+        renderMainImageChoices();
+
         // Auto-generate slug from title (client-side convenience)
         document.getElementById('title').addEventListener('input', function () {
             const slugField = document.getElementById('slug');

@@ -130,7 +130,7 @@ function is_local_image(string $url): bool
             <div class="images-grid">
                 <?php foreach ($images as $img): ?>
                     <figure>
-                        <img src="<?= htmlspecialchars($img['image_url']) ?>" alt="Image article" loading="lazy"
+                        <img src="<?= htmlspecialchars($img['image_url']) ?>" alt="<?= htmlspecialchars($img['alt_text']) ?>" loading="lazy"
                             onerror="this.style.opacity='.3';this.title='Image introuvable';">
                         <figcaption>
                             #<?= $img['id'] ?><br>

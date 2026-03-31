@@ -25,8 +25,16 @@ $meta_description = trim($_POST['meta_description'] ?? '');
 $category_id = $_POST['category_id'] !== '' ? (int) $_POST['category_id'] : null;
 $published_at = trim($_POST['published_at'] ?? '');
 $is_active = isset($_POST['is_active']) ? true : false;
+$main_image_index_raw = $_POST['main_image_index'] ?? '0';
+$main_image_index = filter_var($main_image_index_raw, FILTER_VALIDATE_INT, [
+    'options' => ['min_range' => 0],
+]);
 
 $errors = [];
+
+if ($main_image_index === false) {
+    $errors[] = 'Le choix de l\'image principale est invalide.';
+}
 
 $pdo = getConnection();
 
@@ -72,7 +80,7 @@ const UPLOAD_URL_BASE = '/uploads/articles/';
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
 const ALLOWED_MIME = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
 
-$uploaded_files = []; // Will hold final relative URL paths
+$uploaded_files = []; // Keyed by original input index; value = final relative URL path
 
 if (!empty($_FILES['images']['name'][0])) {
     // Ensure upload directory exists
@@ -127,13 +135,31 @@ if (!empty($_FILES['images']['name'][0])) {
             continue;
         }
 
-        $uploaded_files[] = UPLOAD_URL_BASE . $safe_name;
+        $uploaded_files[$i] = UPLOAD_URL_BASE . $safe_name;
+    }
+}
+
+$first_image_url = $is_edit_mode ? ($existing_article['first_image_url'] ?? null) : null;
+
+if (!empty($uploaded_files)) {
+    if (isset($uploaded_files[(int) $main_image_index])) {
+        $first_image_url = $uploaded_files[(int) $main_image_index];
+    } else {
+        $first_image_url = reset($uploaded_files) ?: null;
+        $errors[] = 'L\'image principale sélectionnée est invalide. La première image valide sera utilisée.';
     }
 }
 
 // ── If validation failed, flash errors and redirect back ──────────────────────
 
 if (!empty($errors)) {
+    foreach ($uploaded_files as $url) {
+        $abs = __DIR__ . '/../../' . ltrim($url, '/');
+        if (file_exists($abs)) {
+            unlink($abs);
+        }
+    }
+
     $_SESSION['form_errors'] = $errors;
     $_SESSION['form_old'] = [
         'title' => $title,
@@ -143,6 +169,7 @@ if (!empty($errors)) {
         'category_id' => $category_id,
         'published_at' => $published_at,
         'is_active' => $is_active,
+        'main_image_index' => $main_image_index_raw,
     ];
     $redirect = 'articles_create.php' . ($is_edit_mode ? '?id=' . (int) $article_id : '');
     header('Location: ' . $redirect);
@@ -165,6 +192,7 @@ try {
             'content' => $content,
             'meta_description' => $meta_description,
             'published_at' => $published_at_sql,
+            'first_image_url' => $first_image_url,
             'is_active' => $is_active,
         ]);
     } else {
@@ -175,6 +203,7 @@ try {
             'content' => $content,
             'meta_description' => $meta_description,
             'published_at' => $published_at_sql,
+            'first_image_url' => $first_image_url,
             'author_id' => $user_id,
             'is_active' => $is_active,
         ]);
@@ -210,6 +239,7 @@ try {
         'category_id' => $category_id,
         'published_at' => $published_at,
         'is_active' => $is_active,
+        'main_image_index' => $main_image_index_raw,
     ];
     $redirect = 'articles_create.php' . ($is_edit_mode ? '?id=' . (int) $article_id : '');
     header('Location: ' . $redirect);

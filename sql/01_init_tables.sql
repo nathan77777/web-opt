@@ -156,3 +156,7 @@ WHERE
             i.article_id = a.id
             AND i.image_url = v.image_url
     );
+
+ALTER TABLE images ADD COLUMN IF NOT EXISTS alt_text VARCHAR(255) DEFAULT 'Image article';
+
+ALTER TABLE articles ADD COLUMN IF NOT EXISTS first_image_url VARCHAR(255) DEFAULT NULL;
