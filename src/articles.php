@@ -13,17 +13,14 @@ function get_articles_with_categories(): array
 
     $query = <<<'SQL'
         SELECT
-            a.id,
-            a.title,
-            a.slug,
-            a.is_active,
-            a.published_at,
-            c.libelles AS category_name,
-            u.email AS author_email
-        FROM articles a
-        LEFT JOIN categories c ON c.id = a.category_id
-        LEFT JOIN users u ON u.id = a.author_id
-        ORDER BY a.created_at DESC, a.id DESC
+            ac.id,
+            ac.title,
+            ac.slug,
+            ac.is_active,
+            ac.published_at,
+            ac.category_name,
+            ac.author_email
+        FROM articles_with_category ac
     SQL;
 
     $result = pg_query($connection, $query);
@@ -44,28 +41,11 @@ function get_frontoffice_articles(): array
 
     $query = <<<'SQL'
         SELECT
-            a.id,
-            a.title,
-            a.slug,
-            a.meta_description,
-            COALESCE(
-                NULLIF(a.first_image_url, ''),
-                (
-                    SELECT i.image_url
-                    FROM images i
-                    WHERE i.article_id = a.id
-                    ORDER BY i.created_at ASC, i.id ASC
-                    LIMIT 1
-                )
-            ) AS main_image_url,
-            c.libelles AS category_name,
-            a.published_at
-        FROM articles a
-        LEFT JOIN categories c ON c.id = a.category_id
-        WHERE a.is_active = TRUE
-          AND a.published_at IS NOT NULL
-          AND a.published_at <= NOW()
-        ORDER BY a.published_at DESC, a.id DESC
+            fa.id,
+            fa.title,
+            fa.slug,
+            fa.meta_description
+        FROM frontoffice_articles fa
     SQL;
 
     $result = pg_query($connection, $query);

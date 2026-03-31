@@ -19,7 +19,7 @@ $articles = get_frontoffice_articles();
 <body>
     <main class="wrapper">
         <div class="header">
-            <h1>Frontoffice - Liste des articles</h1>
+            <h1>Actualites sur la Guerre en Iran</h1>
             <a class="back-link" href="/backoffice/">Connexion backoffice</a>
         </div>
 
