@@ -7,7 +7,7 @@ require_once __DIR__ . '/../../src/articles.php';
 $slug = trim((string) ($_GET['slug'] ?? ''));
 
 if ($slug === '') {
-    header('Location: /frontoffice/');
+    header('Location: /guerre-iran');
     exit;
 }
 
@@ -59,7 +59,7 @@ if ($article !== null) {
 // ── SEO variables ──────────────────────────────────────────────────────────────
 $site_name = 'Guerre Iran – Actualités';
 $base_url = 'https://www.votre-site.com';
-$canonical_url = $base_url . '/pages/article-' . rawurlencode($slug);
+$canonical_url = $base_url . '/guerre-iran/' . rawurlencode($slug);
 
 if ($article !== null) {
     $page_title = htmlspecialchars((string) $article['title'], ENT_QUOTES, 'UTF-8') . ' – ' . $site_name;

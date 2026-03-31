@@ -56,7 +56,7 @@ $canonical_url = 'https://www.votre-site.com/guerre-iran';
                 <div class="list">
                     <?php foreach ($articles as $article): ?>
                         <?php
-                        $article_url = '/pages/article-' . rawurlencode((string) $article['slug']);
+                        $article_url = '/guerre-iran/' . rawurlencode((string) $article['slug']);
                         ?>
                         <article class="card"
                             aria-label="<?= htmlspecialchars((string) $article['title'], ENT_QUOTES, 'UTF-8') ?>">
