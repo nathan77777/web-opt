@@ -37,56 +37,55 @@ $canonical_url = 'https://www.votre-site.com/guerre-iran';
 </head>
 
 <body>
-    <header role="banner">
-        <div class="wrapper header">
-            <h1>Actualités sur la Guerre en Iran</h1>
-            <p class="header-subtitle">Analyses géopolitiques, reportages et dernières nouvelles en temps réel</p>
-        </div>
-    </header>
+<header role="banner">
+    <div class="wrapper header">
+        <div class="header-divider"></div>
+        <h1>Actualités sur la Guerre en Iran</h1>
+        <p class="header-subtitle">Analyses géopolitiques, reportages et dernières nouvelles en temps réel</p>
+    </div>
+</header>
 
-    <main class="wrapper" id="main-content">
+<main class="wrapper" id="main-content">
 
-        <?php if ($articles === []): ?>
-            <p class="empty" role="status">Aucun article publié pour le moment.</p>
-        <?php else: ?>
-            <!-- Section avec un titre H2 décrivant le contenu de la liste -->
-            <section aria-labelledby="articles-heading">
-                <h2 id="articles-heading" class="sr-only">Liste des articles</h2>
+    <?php if ($articles === []): ?>
+        <p class="empty" role="status">Aucun article publié pour le moment.</p>
+    <?php else: ?>
+        <section aria-labelledby="articles-heading">
+            <h2 id="articles-heading" class="sr-only">Liste des articles</h2>
 
-                <div class="list">
-                    <?php foreach ($articles as $article): ?>
-                        <?php
-                        $article_url = '/guerre-iran/' . rawurlencode((string) $article['slug']);
-                        ?>
-                        <article class="card"
-                            aria-label="<?= htmlspecialchars((string) $article['title'], ENT_QUOTES, 'UTF-8') ?>">
+            <p class="section-label">Dernières actualités</p>
 
-                            <?php if (!empty($article['main_image_url'])): ?>
-                                <a class="cover-link" href="<?= $article_url ?>" tabindex="-1" aria-hidden="true">
-                                    <img class="cover"
-                                        src="<?= htmlspecialchars((string) $article['main_image_url'], ENT_QUOTES, 'UTF-8') ?>"
-                                        alt="<?= htmlspecialchars((string) $article['main_image_alt_text'], ENT_QUOTES, 'UTF-8') ?>"
-                                        loading="lazy" width="800" height="450">
-                                </a>
-                            <?php endif; ?>
+            <div class="list">
+                <?php foreach ($articles as $article): ?>
+                    <?php
+                    $article_url = '/guerre-iran/' . rawurlencode((string) $article['slug']);
+                    ?>
+                    <article class="card"
+                             aria-label="<?= htmlspecialchars((string) $article['title'], ENT_QUOTES, 'UTF-8') ?>">
 
-                            <!-- Catégorie visible par les moteurs de recherche -->
-                            <span class="category">
-                                <?= htmlspecialchars((string) ($article['category_name'] ?? 'Sans catégorie'), ENT_QUOTES, 'UTF-8') ?>
-                            </span>
+                        <?php if (!empty($article['main_image_url'])): ?>
+                            <a class="cover-link" href="<?= $article_url ?>" tabindex="-1" aria-hidden="true">
+                                <img class="cover"
+                                     src="<?= htmlspecialchars((string) $article['main_image_url'], ENT_QUOTES, 'UTF-8') ?>"
+                                     alt="<?= htmlspecialchars((string) $article['main_image_alt_text'], ENT_QUOTES, 'UTF-8') ?>"
+                                     loading="lazy" width="800" height="450">
+                            </a>
+                        <?php endif; ?>
 
-                            <!-- H3 pour les titres d'articles (H2 réservé à la section) -->
+                        <div class="card-inner">
+                                <span class="category">
+                                    <?= htmlspecialchars((string) ($article['category_name'] ?? 'Sans catégorie'), ENT_QUOTES, 'UTF-8') ?>
+                                </span>
+
                             <h3 class="card-title">
                                 <a class="title-link" href="<?= $article_url ?>">
                                     <?= htmlspecialchars((string) $article['title'], ENT_QUOTES, 'UTF-8') ?>
                                 </a>
                             </h3>
 
-                            <!-- Date au format machine pour les moteurs de recherche -->
                             <?php if (!empty($article['published_at'])): ?>
                                 <p class="card-date">
-                                    <time
-                                        datetime="<?= htmlspecialchars((string) $article['published_at'], ENT_QUOTES, 'UTF-8') ?>">
+                                    <time datetime="<?= htmlspecialchars((string) $article['published_at'], ENT_QUOTES, 'UTF-8') ?>">
                                         <?php
                                         try {
                                             $d = new DateTimeImmutable((string) $article['published_at']);
@@ -104,15 +103,16 @@ $canonical_url = 'https://www.votre-site.com/guerre-iran';
                             </p>
 
                             <a class="read-more" href="<?= $article_url ?>"
-                                aria-label="Lire l'article : <?= htmlspecialchars((string) $article['title'], ENT_QUOTES, 'UTF-8') ?>">
+                               aria-label="Lire l'article : <?= htmlspecialchars((string) $article['title'], ENT_QUOTES, 'UTF-8') ?>">
                                 Lire l'article
                             </a>
-                        </article>
-                    <?php endforeach; ?>
-                </div>
-            </section>
-        <?php endif; ?>
-    </main>
+                        </div>
+                    </article>
+                <?php endforeach; ?>
+            </div>
+        </section>
+    <?php endif; ?>
+</main>
 </body>
 
 </html>

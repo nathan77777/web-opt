@@ -1,138 +1,433 @@
-* {
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@400;500;600&display=swap');
+
+/* ============================================
+   CSS VARIABLES
+   ============================================ */
+:root {
+	--ink: #0d0d0d;
+	--ink-soft: #3a3a3a;
+	--ink-muted: #757575;
+	--paper: #faf9f6;
+	--paper-warm: #f2efe9;
+	--paper-card: #ffffff;
+	--accent: #c0392b;
+	--accent-light: #fdf0ee;
+	--accent-hover: #a93226;
+	--border: #e0ddd6;
+	--border-strong: #c5c0b8;
+	--shadow-card: 0 2px 8px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+	--shadow-hover: 0 8px 28px rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.06);
+	--radius: 4px;
+	--transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================
+   RESET & BASE
+   ============================================ */
+*, *::before, *::after {
 	box-sizing: border-box;
 }
 
 body {
 	margin: 0;
-	font-family: Arial, sans-serif;
-	background: #f6f7f8;
-	color: #1f2937;
+	font-family: 'DM Sans', sans-serif;
+	background: var(--paper);
+	color: var(--ink);
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
 }
 
-.wrapper {
-	max-width: 1100px;
-	margin: 0 auto;
-	padding: 24px 16px 40px;
+/* ============================================
+   HEADER — Masthead éditorial
+   ============================================ */
+header[role="banner"] {
+	background: var(--ink);
+	color: var(--paper);
+	border-bottom: 3px solid var(--accent);
+	position: relative;
+	overflow: hidden;
 }
 
-.header {
+header[role="banner"]::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background:
+			repeating-linear-gradient(
+					0deg,
+					transparent,
+					transparent 39px,
+					rgba(255,255,255,0.03) 39px,
+					rgba(255,255,255,0.03) 40px
+			);
+	pointer-events: none;
+}
+
+.wrapper.header {
 	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-between;
-	align-items: center;
-	gap: 12px;
-	margin-bottom: 24px;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 10px;
+	padding: 52px 24px 44px;
+	position: relative;
 }
 
 .header h1 {
 	margin: 0;
-	font-size: 1.65rem;
-	line-height: 1.2;
+	font-family: 'Playfair Display', Georgia, serif;
+	font-size: clamp(2rem, 5vw, 3.2rem);
+	font-weight: 900;
+	line-height: 1.1;
+	letter-spacing: -0.02em;
+	color: #ffffff;
 }
 
-.back-link {
-	color: #0f766e;
-	text-decoration: none;
+.header-subtitle {
+	margin: 0;
+	font-family: 'Source Serif 4', Georgia, serif;
+	font-size: 1rem;
+	font-weight: 300;
+	font-style: italic;
+	color: rgba(255,255,255,0.65);
+	letter-spacing: 0.01em;
+}
+
+.header-divider {
+	width: 48px;
+	height: 2px;
+	background: var(--accent);
+	margin-top: 4px;
+}
+
+/* ============================================
+   WRAPPER
+   ============================================ */
+.wrapper {
+	max-width: 1180px;
+	margin: 0 auto;
+	padding: 40px 24px 60px;
+}
+
+/* ============================================
+   SECTION LABEL
+   ============================================ */
+.section-label {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	margin-bottom: 28px;
+	font-family: 'DM Sans', sans-serif;
+	font-size: 0.7rem;
 	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.14em;
+	color: var(--ink-muted);
 }
 
-.back-link:hover {
-	text-decoration: underline;
+.section-label::after {
+	content: '';
+	flex: 1;
+	height: 1px;
+	background: var(--border);
 }
 
-.empty {
-	background: #ffffff;
-	border: 1px solid #e5e7eb;
-	border-radius: 10px;
-	padding: 16px;
-}
-
+/* ============================================
+   ARTICLE GRID — Layout magazine
+   ============================================ */
 .list {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-	gap: 18px;
+	grid-template-columns: repeat(12, 1fr);
+	gap: 0;
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	overflow: hidden;
+	background: var(--border);
 }
 
+/* Premier article : grande vedette */
+.card:first-child {
+	grid-column: span 8;
+	grid-row: span 2;
+	border-right: 1px solid var(--border);
+}
+
+/* Articles 2 et 3 : colonne droite */
+.card:nth-child(2),
+.card:nth-child(3) {
+	grid-column: span 4;
+}
+
+.card:nth-child(2) {
+	border-bottom: 1px solid var(--border);
+}
+
+/* Articles suivants : 3 colonnes */
+.card:nth-child(n+4) {
+	grid-column: span 4;
+	border-top: 1px solid var(--border);
+}
+
+/* ============================================
+   CARD — Style presse
+   ============================================ */
 .card {
-	background: #ffffff;
-	border: 1px solid #e5e7eb;
-	border-radius: 12px;
-	padding: 14px;
+	background: var(--paper-card);
+	padding: 0;
 	display: flex;
 	flex-direction: column;
+	gap: 0;
+	transition: background var(--transition);
+	position: relative;
+}
+
+.card:hover {
+	background: #fffffe;
+	z-index: 1;
+}
+
+.card-inner {
+	padding: 20px 22px 24px;
+	display: flex;
+	flex-direction: column;
+	flex: 1;
 	gap: 10px;
 }
 
+/* Image de couverture */
 .cover-link {
 	display: block;
+	overflow: hidden;
+	position: relative;
+}
+
+.cover-link::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(to top, rgba(0,0,0,0.35) 0%, transparent 50%);
+	opacity: 0;
+	transition: opacity var(--transition);
+}
+
+.card:hover .cover-link::after {
+	opacity: 1;
 }
 
 .cover {
 	width: 100%;
-	height: 180px;
+	height: 200px;
 	object-fit: cover;
 	display: block;
-	border-radius: 10px;
-	background: #e5e7eb;
+	background: var(--paper-warm);
+	transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.card:hover .cover {
+	transform: scale(1.025);
+}
+
+/* Grande vedette : image plus haute */
+.card:first-child .cover {
+	height: 320px;
+}
+
+/* ============================================
+   CATÉGORIE
+   ============================================ */
 .category {
 	display: inline-block;
 	width: fit-content;
-	padding: 3px 8px;
-	border-radius: 999px;
-	background: #eef6ff;
-	color: #1e3a8a;
-	font-size: 0.8rem;
+	padding: 2px 9px;
+	border-radius: 2px;
+	background: var(--accent);
+	color: #ffffff;
+	font-family: 'DM Sans', sans-serif;
+	font-size: 0.68rem;
 	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
 }
 
-.card h2 {
+/* ============================================
+   TITRE DE L'ARTICLE
+   ============================================ */
+.card-title {
 	margin: 0;
+	font-family: 'Playfair Display', Georgia, serif;
 	font-size: 1.05rem;
+	font-weight: 700;
+	line-height: 1.35;
+	color: var(--ink);
+}
+
+.card:first-child .card-title {
+	font-size: 1.5rem;
+	line-height: 1.25;
 }
 
 .title-link {
-	color: #0f172a;
+	color: inherit;
 	text-decoration: none;
+	transition: color var(--transition);
 }
 
 .title-link:hover {
-	text-decoration: underline;
+	color: var(--accent);
 }
 
-.slug {
+/* ============================================
+   DATE
+   ============================================ */
+.card-date {
 	margin: 0;
-	color: #6b7280;
-	font-size: 0.85rem;
+	font-family: 'DM Sans', sans-serif;
+	font-size: 0.75rem;
+	font-weight: 500;
+	color: var(--ink-muted);
+	letter-spacing: 0.02em;
 }
 
-.card p {
+/* ============================================
+   DESCRIPTION
+   ============================================ */
+.card-description {
 	margin: 0;
-	line-height: 1.45;
+	font-family: 'Source Serif 4', Georgia, serif;
+	font-size: 0.9rem;
+	font-weight: 300;
+	line-height: 1.6;
+	color: var(--ink-soft);
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
 }
 
+.card:first-child .card-description {
+	-webkit-line-clamp: 4;
+	font-size: 0.95rem;
+}
+
+/* ============================================
+   LIRE L'ARTICLE — Lien discret
+   ============================================ */
 .read-more {
 	margin-top: auto;
-	color: #0f766e;
+	padding-top: 10px;
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	color: var(--accent);
 	text-decoration: none;
+	font-family: 'DM Sans', sans-serif;
+	font-size: 0.8rem;
 	font-weight: 600;
+	letter-spacing: 0.03em;
+	border-top: 1px solid var(--border);
+	transition: gap var(--transition), color var(--transition);
+}
+
+.read-more::after {
+	content: '→';
+	transition: transform var(--transition);
 }
 
 .read-more:hover {
-	text-decoration: underline;
+	color: var(--accent-hover);
+	gap: 8px;
 }
 
-@media (max-width: 640px) {
+.read-more:hover::after {
+	transform: translateX(3px);
+}
+
+/* ============================================
+   ÉTAT VIDE
+   ============================================ */
+.empty {
+	background: var(--paper-card);
+	border: 1px solid var(--border);
+	border-left: 3px solid var(--accent);
+	border-radius: var(--radius);
+	padding: 20px 24px;
+	color: var(--ink-soft);
+	font-family: 'Source Serif 4', Georgia, serif;
+	font-style: italic;
+}
+
+/* ============================================
+   SR-ONLY
+   ============================================ */
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0,0,0,0);
+	white-space: nowrap;
+	border: 0;
+}
+
+/* ============================================
+   RESPONSIVE — TABLET (≤ 900px)
+   ============================================ */
+@media (max-width: 900px) {
+	.list {
+		grid-template-columns: repeat(6, 1fr);
+	}
+
+	.card:first-child {
+		grid-column: span 6;
+		grid-row: span 1;
+		border-right: none;
+		border-bottom: 1px solid var(--border);
+	}
+
+	.card:nth-child(2),
+	.card:nth-child(3) {
+		grid-column: span 3;
+	}
+
+	.card:nth-child(n+4) {
+		grid-column: span 3;
+	}
+
+	.card:first-child .cover {
+		height: 260px;
+	}
+}
+
+/* ============================================
+   RESPONSIVE — MOBILE (≤ 600px)
+   ============================================ */
+@media (max-width: 600px) {
 	.wrapper {
-		padding: 18px 12px 28px;
+		padding: 24px 16px 40px;
 	}
 
-	.header h1 {
-		font-size: 1.35rem;
+	.wrapper.header {
+		padding: 36px 16px 32px;
 	}
 
-	.cover {
-		height: 165px;
+	.list {
+		display: flex;
+		flex-direction: column;
+		border-radius: var(--radius);
+		gap: 1px;
+	}
+
+	.card {
+		border-right: none !important;
+		border-top: none !important;
+	}
+
+	.cover, .card:first-child .cover {
+		height: 200px;
+	}
+
+	.card:first-child .card-title {
+		font-size: 1.2rem;
 	}
 }
