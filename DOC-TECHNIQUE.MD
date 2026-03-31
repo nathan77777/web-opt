@@ -1,5 +1,9 @@
 # Documentation technique
 
+## ETU:
+3097 - Nathan
+3159 - Rindra
+
 ## lancement projet
 ```bash
 docker compose up -d
