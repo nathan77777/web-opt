@@ -19,7 +19,7 @@ $articles = get_articles_with_categories();
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Backoffice - Articles</title>
-    <link rel="stylesheet" href="../assets/css/article_list.css">
+    <link rel="stylesheet" href="../assets/css/backoffice_article_list.css">
 </head>
 
 <body>

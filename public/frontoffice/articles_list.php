@@ -13,14 +13,14 @@ $articles = get_frontoffice_articles();
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Frontoffice - Articles</title>
-    <link rel="stylesheet" href="../assets/css/frontoffice_index.css">
+    <link rel="stylesheet" href="../assets/css/frontoffice_article_list.css">
 </head>
 
 <body>
     <main class="wrapper">
         <div class="header">
             <h1>Actualites sur la Guerre en Iran</h1>
-            <a class="back-link" href="/backoffice/">Connexion backoffice</a>
+            <!-- <a class="back-link" href="/backoffice/">Connexion backoffice</a> -->
         </div>
 
         <?php if ($articles === []): ?>
@@ -33,7 +33,7 @@ $articles = get_frontoffice_articles();
                             <a class="cover-link" href="/pages/article-<?= rawurlencode((string) $article['slug']) ?>">
                                 <img class="cover"
                                     src="<?= htmlspecialchars((string) $article['main_image_url'], ENT_QUOTES, 'UTF-8') ?>"
-                                    alt="Image principale de <?= htmlspecialchars((string) $article['title'], ENT_QUOTES, 'UTF-8') ?>"
+                                    alt="<?= htmlspecialchars((string) $article['main_image_alt_text'], ENT_QUOTES, 'UTF-8') ?>"
                                     loading="lazy">
                             </a>
                         <?php endif; ?>
@@ -45,7 +45,7 @@ $articles = get_frontoffice_articles();
                                 <?= htmlspecialchars((string) $article['title'], ENT_QUOTES, 'UTF-8') ?>
                             </a>
                         </h2>
-                        <p class="slug">Slug: <?= htmlspecialchars((string) $article['slug'], ENT_QUOTES, 'UTF-8') ?></p>
+                        <p class="slug">Date: <?= htmlspecialchars((string) $article['published_at'], ENT_QUOTES, 'UTF-8') ?></p>
                         <p><?= htmlspecialchars((string) $article['meta_description'], ENT_QUOTES, 'UTF-8') ?></p>
                         <a class="read-more" href="/pages/article-<?= rawurlencode((string) $article['slug']) ?>">Lire
                             l'article</a>

@@ -42,9 +42,13 @@ function get_frontoffice_articles(): array
     $query = <<<'SQL'
         SELECT
             fa.id,
+            fa.category_name,
             fa.title,
             fa.slug,
-            fa.meta_description
+            fa.meta_description,
+            fa.published_at,
+            fa.main_image_url,
+            fa.main_image_alt_text
         FROM frontoffice_articles fa
     SQL;
 

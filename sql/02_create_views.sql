@@ -23,6 +23,7 @@ SELECT
     a.title,
     a.slug,
     a.meta_description,
+    -- URL image principale
     COALESCE(
         NULLIF(a.first_image_url, ''),
         (
@@ -39,6 +40,19 @@ SELECT
                 1
         )
     ) AS main_image_url,
+    (
+        SELECT
+            i.alt_text
+        FROM
+            images i
+        WHERE
+            i.article_id = a.id
+        ORDER BY
+            i.created_at ASC,
+            i.id ASC
+        LIMIT
+            1
+    ) AS main_image_alt_text,
     c.libelles AS category_name,
     a.published_at
 FROM
@@ -51,4 +65,3 @@ WHERE
 ORDER BY
     a.published_at DESC,
     a.id DESC;
-

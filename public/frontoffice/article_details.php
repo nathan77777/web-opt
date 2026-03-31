@@ -63,7 +63,7 @@ if ($article !== null) {
 
 <body>
     <main class="wrapper">
-        <a class="back-link" href="/guerre-iran">&larr; Retour a la liste des articles</a>
+        <a class="back-link" href="/guerre-iran">&larr; Accueil</a>
 
         <?php if ($article === null): ?>
             <section class="not-found">
