@@ -1,68 +1,148 @@
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            min-height: 100vh;
-            display: grid;
-            place-items: center;
-            background: #f6f8fb;
-        }
+/* ============================================
+   BASE
+   ============================================ */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&display=swap');
 
-        .card {
-            width: 100%;
-            max-width: 400px;
-            background: #fff;
-            border: 1px solid #dde3ea;
-            border-radius: 10px;
-            padding: 24px;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.07);
-        }
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-        h1 {
-            margin-top: 0;
-            font-size: 1.3rem;
-        }
+body {
+    font-family: 'DM Sans', Arial, sans-serif;
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    background: #f6f7f8;
+    color: #1f2937;
+}
 
-        label {
-            display: block;
-            margin: 12px 0 6px;
-            font-weight: 600;
-        }
+/* ============================================
+   CARD
+   ============================================ */
+.card {
+    width: 100%;
+    max-width: 420px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 36px 32px;
+    box-shadow: 0 8px 32px rgba(15, 23, 42, 0.08);
+}
 
-        input {
-            width: 100%;
-            box-sizing: border-box;
-            border: 1px solid #c9d3df;
-            border-radius: 8px;
-            padding: 10px;
-            font-size: 1rem;
-        }
+.card h1 {
+    font-size: 1.45rem;
+    font-weight: 700;
+    margin-bottom: 28px;
+    color: #0f172a;
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 18px;
+    letter-spacing: -0.01em;
+}
 
-        button {
-            margin-top: 16px;
-            width: 100%;
-            padding: 11px;
-            border: 0;
-            border-radius: 8px;
-            background: #0d6efd;
-            color: #fff;
-            font-weight: 600;
-            cursor: pointer;
-        }
+/* ============================================
+   FORMULAIRE
+   ============================================ */
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: #374151;
+}
 
-        .error {
-            color: #a30000;
-            background: #ffe9e9;
-            border: 1px solid #ffc6c6;
-            border-radius: 8px;
-            padding: 8px 10px;
-            margin-top: 10px;
-            font-size: 0.95rem;
-        }
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    padding: 11px 14px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    color: #1f2937;
+    background: #f9fafb;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    margin-bottom: 18px;
+}
 
-        .front-link {
-            display: inline-block;
-            margin-top: 14px;
-            color: #334155;
-            text-decoration: none;
-            font-size: 0.92rem;
-        }
+input[type="email"]:focus,
+input[type="password"]:focus {
+    outline: none;
+    border-color: #0f766e;
+    box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.14);
+    background: #ffffff;
+}
+
+/* ============================================
+   BOUTON
+   ============================================ */
+button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #0f766e;
+    color: #ffffff;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background 0.18s ease, transform 0.1s ease, box-shadow 0.18s ease;
+    margin-top: 4px;
+    min-height: 48px;
+    letter-spacing: 0.01em;
+}
+
+button:hover {
+    background: #0d6b63;
+    box-shadow: 0 4px 14px rgba(15, 118, 110, 0.28);
+}
+
+button:active {
+    transform: scale(0.99);
+    box-shadow: none;
+}
+
+/* ============================================
+   ERREUR
+   ============================================ */
+.error {
+    color: #991b1b;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 10px;
+    padding: 11px 14px;
+    margin-bottom: 18px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+/* ============================================
+   LIEN FRONTOFFICE
+   ============================================ */
+.front-link {
+    display: block;
+    margin-top: 22px;
+    text-align: center;
+    color: #6b7280;
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: color 0.18s ease;
+}
+
+.front-link:hover {
+    color: #0f766e;
+    text-decoration: underline;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 480px) {
+    .card {
+        margin: 16px;
+        padding: 28px 20px;
+        border-radius: 12px;
+    }
+}
