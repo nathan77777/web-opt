@@ -1,148 +1,214 @@
-/* ============================================
-   BASE
-   ============================================ */
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
 
-* {
+:root {
+    --bg: #f4f3f0;
+    --bg-card: #ffffff;
+    --bg-input: #fafaf9;
+    --border: #e2e0db;
+    --border-focus: #4f46e5;
+    --accent: #4f46e5;
+    --accent-hover: #4338ca;
+    --accent-glow: rgba(79, 70, 229, 0.12);
+    --text: #18181b;
+    --text-muted: #71717a;
+    --text-subtle: #a1a1aa;
+    --error-bg: #fff1f2;
+    --error-border: #fecdd3;
+    --error-text: #be123c;
+    --radius: 10px;
+    --radius-lg: 16px;
+    --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+*, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
 body {
-    font-family: 'DM Sans', Arial, sans-serif;
+    font-family: 'DM Sans', sans-serif;
     min-height: 100vh;
     display: grid;
     place-items: center;
-    background: #f6f7f8;
-    color: #1f2937;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
 }
 
-/* ============================================
-   CARD
-   ============================================ */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse 700px 500px at 50% -80px, rgba(79, 70, 229, 0.06) 0%, transparent 70%);
+    pointer-events: none;
+}
+
 .card {
+    position: relative;
+    z-index: 1;
     width: 100%;
-    max-width: 420px;
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
-    border-radius: 16px;
-    padding: 36px 32px;
-    box-shadow: 0 8px 32px rgba(15, 23, 42, 0.08);
+    max-width: 400px;
+    margin: 20px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 40px 36px 36px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.06);
+}
+
+.card-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 28px;
+}
+
+.card-logo-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--accent);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    color: #fff;
+    font-weight: 700;
+    flex-shrink: 0;
 }
 
 .card h1 {
-    font-size: 1.45rem;
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem;
     font-weight: 700;
-    margin-bottom: 28px;
-    color: #0f172a;
-    border-bottom: 2px solid #f1f5f9;
-    padding-bottom: 18px;
+    color: var(--text);
     letter-spacing: -0.01em;
 }
 
-/* ============================================
-   FORMULAIRE
-   ============================================ */
+.card-subtitle {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-weight: 400;
+    display: block;
+    margin-top: 1px;
+}
+
+.card-divider {
+    height: 1px;
+    background: var(--border);
+    margin-bottom: 26px;
+}
+
 label {
     display: block;
-    margin-bottom: 6px;
+    font-size: 0.75rem;
     font-weight: 600;
-    font-size: 0.875rem;
-    color: #374151;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 7px;
 }
 
 input[type="email"],
 input[type="password"] {
     width: 100%;
-    border: 1px solid #d1d5db;
-    border-radius: 10px;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
     padding: 11px 14px;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     font-family: inherit;
-    color: #1f2937;
-    background: #f9fafb;
-    transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    color: var(--text);
     margin-bottom: 18px;
+    transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+    outline: none;
 }
 
 input[type="email"]:focus,
 input[type="password"]:focus {
-    outline: none;
-    border-color: #0f766e;
-    box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.14);
-    background: #ffffff;
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+    background: #fff;
 }
 
-/* ============================================
-   BOUTON
-   ============================================ */
-button {
+input[type="email"]::placeholder,
+input[type="password"]::placeholder {
+    color: var(--text-subtle);
+}
+
+button[type="submit"] {
     width: 100%;
     padding: 12px;
     border: none;
-    border-radius: 10px;
-    background: #0f766e;
+    border-radius: var(--radius);
+    background: var(--accent);
     color: #ffffff;
     font-family: inherit;
-    font-weight: 700;
-    font-size: 0.95rem;
+    font-weight: 600;
+    font-size: 0.88rem;
     cursor: pointer;
-    transition: background 0.18s ease, transform 0.1s ease, box-shadow 0.18s ease;
     margin-top: 4px;
-    min-height: 48px;
-    letter-spacing: 0.01em;
+    min-height: 46px;
+    letter-spacing: 0.02em;
+    transition: background var(--transition), box-shadow var(--transition), transform var(--transition);
 }
 
-button:hover {
-    background: #0d6b63;
-    box-shadow: 0 4px 14px rgba(15, 118, 110, 0.28);
+button[type="submit"]:hover {
+    background: var(--accent-hover);
+    box-shadow: 0 4px 16px rgba(79, 70, 229, 0.28);
 }
 
-button:active {
+button[type="submit"]:active {
     transform: scale(0.99);
     box-shadow: none;
 }
 
-/* ============================================
-   ERREUR
-   ============================================ */
 .error {
-    color: #991b1b;
-    background: #fef2f2;
-    border: 1px solid #fecaca;
-    border-radius: 10px;
+    background: var(--error-bg);
+    border: 1px solid var(--error-border);
+    border-radius: var(--radius);
+    color: var(--error-text);
     padding: 11px 14px;
-    margin-bottom: 18px;
-    font-size: 0.9rem;
-    font-weight: 600;
+    margin-bottom: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-/* ============================================
-   LIEN FRONTOFFICE
-   ============================================ */
+.error::before {
+    content: '!';
+    display: inline-flex;
+    width: 18px;
+    height: 18px;
+    background: #fecdd3;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--error-text);
+    flex-shrink: 0;
+}
+
 .front-link {
     display: block;
     margin-top: 22px;
     text-align: center;
-    color: #6b7280;
+    color: var(--text-subtle);
     text-decoration: none;
-    font-size: 0.875rem;
-    transition: color 0.18s ease;
+    font-size: 0.8rem;
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
+    transition: color var(--transition);
 }
 
 .front-link:hover {
-    color: #0f766e;
-    text-decoration: underline;
+    color: var(--accent);
 }
 
-/* ============================================
-   RESPONSIVE
-   ============================================ */
-@media (max-width: 480px) {
-    .card {
-        margin: 16px;
-        padding: 28px 20px;
-        border-radius: 12px;
-    }
+@media (max-width: 440px) {
+    .card { padding: 30px 20px 26px; }
 }

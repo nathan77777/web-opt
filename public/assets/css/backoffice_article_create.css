@@ -1,0 +1,346 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400&display=swap');
+
+:root {
+    --bg: #f4f3f0;
+    --bg-panel: #ffffff;
+    --bg-input: #fafaf9;
+    --bg-surface: #f7f6f3;
+    --border: #e2e0db;
+    --border-soft: #eeece8;
+    --border-focus: #4f46e5;
+    --accent: #4f46e5;
+    --accent-hover: #4338ca;
+    --accent-glow: rgba(79, 70, 229, 0.12);
+    --text: #18181b;
+    --text-muted: #71717a;
+    --text-subtle: #a1a1aa;
+    --error-bg: #fff1f2;
+    --error-border: #fecdd3;
+    --error-text: #be123c;
+    --radius: 9px;
+    --radius-lg: 15px;
+    --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+    font-family: 'DM Sans', sans-serif;
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ── LAYOUT ── */
+.wrapper {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 28px 20px 56px;
+}
+
+/* ── EN-TÊTE ── */
+.page-header {
+    margin-bottom: 24px;
+}
+
+h1 {
+    margin: 0 0 14px;
+    font-family: 'Syne', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.02em;
+}
+
+/* ── LIEN RETOUR ── */
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: #fff;
+    transition: background var(--transition), color var(--transition), border-color var(--transition);
+}
+
+.back-link:hover {
+    background: #f4f3ff;
+    border-color: #c7d2fe;
+    color: var(--accent);
+}
+
+/* ── ERREURS ── */
+.errors {
+    list-style: none;
+    background: var(--error-bg);
+    border: 1px solid var(--error-border);
+    border-left: 3px solid var(--error-text);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin-bottom: 22px;
+}
+
+.errors li {
+    color: var(--error-text);
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 3px 0;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.errors li::before {
+    content: '!';
+    display: inline-flex;
+    width: 16px;
+    height: 16px;
+    min-width: 16px;
+    background: #fecdd3;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--error-text);
+}
+
+/* ── PANEL FORMULAIRE ── */
+.panel {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 6px 20px rgba(0,0,0,0.05);
+}
+
+/* ── SÉPARATEURS DE SECTION ── */
+.section-title {
+    font-size: 0.67rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-subtle);
+    margin: 30px 0 18px;
+    padding-bottom: 9px;
+    border-bottom: 1px solid var(--border-soft);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.section-title::before {
+    content: '';
+    display: inline-block;
+    width: 3px;
+    height: 11px;
+    background: var(--accent);
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+/* ── CHAMPS ── */
+.field {
+    margin-bottom: 20px;
+}
+
+.field:last-child { margin-bottom: 0; }
+
+label {
+    display: block;
+    margin-bottom: 7px;
+    font-weight: 600;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+}
+
+label .required {
+    color: #e11d48;
+    margin-left: 2px;
+}
+
+/* ── INPUTS TEXTE / SELECT / TEXTAREA ── */
+input[type="text"],
+input[type="datetime-local"],
+select,
+textarea {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 10px 13px;
+    font-size: 0.9rem;
+    font-family: inherit;
+    color: var(--text);
+    background: var(--bg-input);
+    transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+    appearance: none;
+    outline: none;
+}
+
+input[type="text"]:focus,
+input[type="datetime-local"]:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+    background: #fff;
+}
+
+input[type="text"]::placeholder,
+textarea::placeholder {
+    color: var(--text-subtle);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 220px;
+    line-height: 1.65;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.85rem;
+    color: #3f3f46;
+}
+
+select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' viewBox='0 0 11 7'%3E%3Cpath fill='none' stroke='%23a1a1aa' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' d='M1 1l4.5 4.5L10 1'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 13px center;
+    padding-right: 34px;
+    cursor: pointer;
+}
+
+small {
+    display: block;
+    margin-top: 5px;
+    color: var(--text-subtle);
+    font-size: 0.75rem;
+    line-height: 1.5;
+}
+
+/* ── CHECKBOX ── */
+.checkbox-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--text);
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+input[type="checkbox"] {
+    width: 17px;
+    height: 17px;
+    border-radius: 5px;
+    accent-color: var(--accent);
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+/* ── INPUT FILE ── */
+input[type="file"] {
+    width: 100%;
+    border: 1.5px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    font-size: 0.83rem;
+    font-family: inherit;
+    color: var(--text-muted);
+    background: var(--bg-input);
+    cursor: pointer;
+    transition: border-color var(--transition), background var(--transition);
+    outline: none;
+}
+
+input[type="file"]:hover,
+input[type="file"]:focus {
+    border-color: var(--accent);
+    background: #f4f3ff;
+}
+
+/* ── APERÇU IMAGE PRINCIPALE ── */
+#main-image-choices {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+/* Styles pour les boutons de choix d'image générés par JS */
+#main-image-choices label {
+    display: block;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    cursor: pointer;
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+#main-image-choices label:hover {
+    border-color: #c7d2fe;
+}
+
+#main-image-choices input[type="radio"]:checked + label,
+#main-image-choices label:has(input[type="radio"]:checked) {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px var(--accent-glow);
+}
+
+/* ── BOUTON SUBMIT ── */
+.btn-submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    padding: 12px 26px;
+    border: none;
+    border-radius: var(--radius);
+    background: var(--accent);
+    color: #ffffff;
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background var(--transition), box-shadow var(--transition), transform var(--transition);
+    letter-spacing: 0.01em;
+    min-height: 46px;
+}
+
+.btn-submit:hover {
+    background: var(--accent-hover);
+    box-shadow: 0 4px 16px rgba(79, 70, 229, 0.28);
+}
+
+.btn-submit:active {
+    transform: scale(0.99);
+    box-shadow: none;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+    .panel {
+        padding: 20px 16px;
+        border-radius: 12px;
+    }
+
+    h1 { font-size: 1.2rem; }
+
+    .btn-submit {
+        width: 100%;
+        justify-content: center;
+    }
+}

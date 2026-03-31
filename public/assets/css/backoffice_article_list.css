@@ -1,307 +1,326 @@
-/* ============================================
-   BASE
-   ============================================ */
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
 
-* {
-    box-sizing: border-box;
+:root {
+    --bg: #f4f3f0;
+    --bg-panel: #ffffff;
+    --bg-header: #fafaf9;
+    --bg-row-hover: #fafaf8;
+    --bg-th: #f7f6f3;
+    --border: #e2e0db;
+    --border-soft: #eeece8;
+    --accent: #4f46e5;
+    --accent-hover: #4338ca;
+    --accent-dim: rgba(79, 70, 229, 0.08);
+    --text: #18181b;
+    --text-muted: #71717a;
+    --text-subtle: #a1a1aa;
+    --badge-active-bg: #f0fdf4;
+    --badge-active-text: #15803d;
+    --badge-active-border: #bbf7d0;
+    --badge-inactive-bg: #fff1f2;
+    --badge-inactive-text: #be123c;
+    --badge-inactive-border: #fecdd3;
+    --todo-bg: #fefce8;
+    --todo-border: #fef08a;
+    --todo-text: #854d0e;
+    --radius: 8px;
+    --radius-lg: 14px;
+    --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+*, *::before, *::after { box-sizing: border-box; }
 
 body {
-    font-family: 'DM Sans', Arial, sans-serif;
+    font-family: 'DM Sans', sans-serif;
     margin: 0;
-    background: #f6f7f8;
-    color: #1f2937;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
 }
 
-/* ============================================
-   LAYOUT
-   ============================================ */
+/* ── LAYOUT ── */
 .wrapper {
-    max-width: 1100px;
+    max-width: 1140px;
     margin: 0 auto;
-    padding: 24px 16px 40px;
+    padding: 32px 20px 56px;
 }
 
-/* ============================================
-   PANEL
-   ============================================ */
+/* ── PANEL ── */
 .panel {
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
-    border-radius: 16px;
-    box-shadow: 0 8px 32px rgba(15, 23, 42, 0.07);
-    padding: 28px;
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
     overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.05);
 }
 
-/* ============================================
-   HEADER
-   ============================================ */
+/* ── HEADER ── */
 .header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    gap: 16px;
-    margin-bottom: 24px;
-    padding-bottom: 20px;
-    border-bottom: 2px solid #f1f5f9;
+    gap: 20px;
+    padding: 22px 26px;
+    background: var(--bg-header);
+    border-bottom: 1px solid var(--border);
 }
 
 h1 {
     margin: 0;
-    font-size: 1.5rem;
+    font-family: 'Syne', sans-serif;
+    font-size: 1.25rem;
     font-weight: 700;
-    color: #0f172a;
-    letter-spacing: -0.01em;
+    color: var(--text);
+    letter-spacing: -0.02em;
 }
 
 .subtitle {
-    margin: 6px 0 0;
-    color: #6b7280;
-    font-size: 0.875rem;
+    margin: 5px 0 0;
+    color: var(--text-muted);
+    font-size: 0.78rem;
 }
 
-/* ============================================
-   ACTIONS (boutons header)
-   ============================================ */
+.subtitle strong {
+    color: #52525b;
+    font-weight: 500;
+}
+
+/* ── BOUTONS HEADER ── */
 .actions {
     display: flex;
-    gap: 8px;
+    gap: 7px;
     flex-wrap: wrap;
     align-items: center;
+    flex-shrink: 0;
 }
 
 .action {
     text-decoration: none;
-    border: 1px solid #e5e7eb;
-    border-radius: 10px;
-    padding: 9px 16px;
-    color: #1f2937;
+    border-radius: var(--radius);
+    padding: 8px 14px;
     font-weight: 600;
-    font-size: 0.875rem;
-    background: #f9fafb;
+    font-size: 0.78rem;
     white-space: nowrap;
-    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    border: 1px solid var(--border);
+    background: #ffffff;
+    color: var(--text-muted);
+    transition: background var(--transition), border-color var(--transition), color var(--transition);
+    letter-spacing: 0.01em;
 }
 
 .action:hover {
-    background: #eef6ff;
-    border-color: #1e3a8a;
-    color: #1e3a8a;
+    background: #f4f3ff;
+    border-color: #c7d2fe;
+    color: var(--accent);
 }
 
 .action:first-child {
-    background: #0f766e;
-    border-color: #0f766e;
+    background: var(--accent);
+    border-color: var(--accent);
     color: #ffffff;
 }
 
 .action:first-child:hover {
-    background: #0d6b63;
-    border-color: #0d6b63;
-    color: #ffffff;
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
+}
+
+.action[aria-disabled="true"] {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
 }
 
 .logout {
     text-decoration: none;
-    border: 1px solid #fecaca;
-    border-radius: 10px;
-    padding: 9px 16px;
-    color: #991b1b;
+    border-radius: var(--radius);
+    padding: 8px 14px;
     font-weight: 600;
-    font-size: 0.875rem;
-    background: #fef2f2;
-    white-space: nowrap;
-    transition: background 0.15s ease, border-color 0.15s ease;
+    font-size: 0.78rem;
+    border: 1px solid var(--border);
+    background: #fff;
+    color: var(--text-muted);
+    transition: background var(--transition), border-color var(--transition), color var(--transition);
+    letter-spacing: 0.01em;
 }
 
 .logout:hover {
-    background: #fee2e2;
-    border-color: #fca5a5;
+    background: var(--badge-inactive-bg);
+    border-color: var(--badge-inactive-border);
+    color: var(--badge-inactive-text);
 }
 
-/* ============================================
-   BANDEAU TODO
-   ============================================ */
+/* ── BANDEAU TODO ── */
 .todo {
-    margin: 0 0 20px;
-    padding: 11px 14px;
-    border: 1px dashed #d1d5db;
-    border-radius: 10px;
-    background: #f9fafb;
-    color: #6b7280;
-    font-size: 0.875rem;
+    margin: 0;
+    padding: 9px 26px;
+    background: var(--todo-bg);
+    border-bottom: 1px solid var(--todo-border);
+    color: var(--todo-text);
+    font-size: 0.77rem;
+    letter-spacing: 0.01em;
+    display: flex;
+    align-items: center;
+    gap: 7px;
 }
 
-/* ============================================
-   TABLE
-   ============================================ */
+.todo::before {
+    content: '○';
+    font-size: 11px;
+    opacity: 0.6;
+}
+
+/* ── TABLE ── */
 table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.92rem;
-}
-
-th,
-td {
-    text-align: left;
-    padding: 13px 12px;
-    border-bottom: 1px solid #f1f5f9;
-    vertical-align: middle;
+    font-size: 0.875rem;
 }
 
 th {
-    background: #f9fafb;
-    font-size: 0.78rem;
+    background: var(--bg-th);
+    padding: 9px 14px 9px 13px;
+    text-align: left;
+    font-size: 0.68rem;
     font-weight: 700;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: #6b7280;
-    border-bottom: 2px solid #e5e7eb;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
 }
 
-tbody tr {
-    transition: background 0.12s ease;
+th:first-child { padding-left: 26px; }
+th:last-child  { padding-right: 26px; }
+
+td {
+    padding: 13px 13px;
+    border-bottom: 1px solid var(--border-soft);
+    vertical-align: middle;
+    color: #52525b;
 }
 
-tbody tr:hover {
-    background: #f6fffe;
-}
+td:first-child { padding-left: 26px; }
+td:last-child  { padding-right: 26px; }
 
-tbody tr:last-child td {
-    border-bottom: none;
-}
-
-td a {
-    color: #0f766e;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.85rem;
-    transition: color 0.15s ease;
-}
-
-td a:hover {
-    color: #0d6b63;
-    text-decoration: underline;
-}
+tbody tr { transition: background var(--transition); }
+tbody tr:hover { background: var(--bg-row-hover); }
+tbody tr:last-child td { border-bottom: none; }
 
 td strong {
-    color: #0f172a;
-    font-weight: 600;
+    color: var(--text);
+    font-weight: 500;
+    display: block;
+    margin-bottom: 1px;
 }
 
 td small {
-    color: #9ca3af;
-    font-size: 0.8rem;
+    color: var(--text-subtle);
+    font-size: 0.72rem;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.01em;
 }
 
-/* ============================================
-   BADGES
-   ============================================ */
+/* ── BADGES ── */
 .badge {
     display: inline-block;
-    border-radius: 999px;
-    padding: 4px 11px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.02em;
+    border-radius: 6px;
+    padding: 3px 9px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border: 1px solid transparent;
 }
 
 .active {
-    background: #dcfce7;
-    color: #166534;
+    background: var(--badge-active-bg);
+    color: var(--badge-active-text);
+    border-color: var(--badge-active-border);
 }
 
 .inactive {
-    background: #fee2e2;
-    color: #991b1b;
+    background: var(--badge-inactive-bg);
+    color: var(--badge-inactive-text);
+    border-color: var(--badge-inactive-border);
 }
 
-/* ============================================
-   ÉTAT VIDE
-   ============================================ */
+/* ── LIENS actions ── */
+td a {
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: color var(--transition);
+}
+
+td a:hover {
+    color: var(--accent-hover);
+    text-decoration: underline;
+}
+
+td a + a {
+    margin-left: 10px;
+    padding-left: 10px;
+    border-left: 1px solid var(--border);
+}
+
+/* ── ÉTAT VIDE ── */
 .empty {
-    margin: 16px 0 0;
-    padding: 16px;
-    border: 1px dashed #d1d5db;
-    border-radius: 10px;
-    color: #6b7280;
-    background: #f9fafb;
-    font-size: 0.9rem;
+    display: block;
+    padding: 40px 26px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    font-style: italic;
 }
 
-/* ============================================
-   RESPONSIVE — TABLET (≤ 780px)
-   ============================================ */
-@media (max-width: 780px) {
+/* ── RESPONSIVE TABLET ── */
+@media (max-width: 820px) {
     .header {
         flex-direction: column;
         align-items: flex-start;
+        padding: 18px 18px;
     }
 
-    table,
-    thead,
-    tbody,
-    th,
-    td,
+    th:nth-child(4),
+    td:nth-child(4) { display: none; }
+}
+
+/* ── RESPONSIVE MOBILE ── */
+@media (max-width: 640px) {
+    .wrapper { padding: 16px 12px 40px; }
+
+    table, thead, tbody, th, td, tr { display: block; }
+    thead { display: none; }
+
     tr {
-        display: block;
-    }
-
-    thead {
-        display: none;
-    }
-
-    tr {
-        border: 1px solid #e5e7eb;
-        border-radius: 12px;
-        margin-bottom: 12px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        margin-bottom: 10px;
         overflow: hidden;
-        background: #ffffff;
+        background: var(--bg-panel);
     }
 
     td {
-        border-bottom: 1px solid #f1f5f9;
-        padding: 10px 14px;
+        border-bottom: 1px solid var(--border-soft);
+        padding: 10px 16px;
     }
 
-    td:last-child {
-        border-bottom: none;
-    }
+    td:first-child { padding-left: 16px; }
+    td:last-child  { border-bottom: none; padding-right: 16px; }
 
     td::before {
         content: attr(data-label);
         display: block;
-        font-size: 0.72rem;
+        font-size: 0.67rem;
         font-weight: 700;
-        color: #9ca3af;
+        color: var(--text-subtle);
         text-transform: uppercase;
-        letter-spacing: 0.05em;
+        letter-spacing: 0.08em;
         margin-bottom: 4px;
     }
-}
 
-/* ============================================
-   RESPONSIVE — MOBILE (≤ 480px)
-   ============================================ */
-@media (max-width: 480px) {
-    .panel {
-        padding: 18px 14px;
-        border-radius: 12px;
-    }
-
-    h1 {
-        font-size: 1.25rem;
-    }
-
-    .actions {
-        width: 100%;
-    }
-
-    .action,
-    .logout {
-        flex: 1;
-        text-align: center;
-    }
+    .actions { width: 100%; }
+    .action, .logout { flex: 1; text-align: center; }
 }
