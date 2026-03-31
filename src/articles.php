@@ -48,15 +48,102 @@ function get_frontoffice_articles(): array
             a.title,
             a.slug,
             a.meta_description,
-            c.libelles AS category_name
+            COALESCE(
+                NULLIF(a.first_image_url, ''),
+                (
+                    SELECT i.image_url
+                    FROM images i
+                    WHERE i.article_id = a.id
+                    ORDER BY i.created_at ASC, i.id ASC
+                    LIMIT 1
+                )
+            ) AS main_image_url,
+            c.libelles AS category_name,
+            a.published_at
         FROM articles a
         LEFT JOIN categories c ON c.id = a.category_id
         WHERE a.is_active = TRUE
           AND a.published_at IS NOT NULL
+          AND a.published_at <= NOW()
         ORDER BY a.published_at DESC, a.id DESC
     SQL;
 
     $result = pg_query($connection, $query);
+
+    if ($result === false) {
+        return [];
+    }
+
+    return pg_fetch_all($result) ?: [];
+}
+
+/**
+ * @return array<string, mixed>|null
+ */
+function get_frontoffice_article_by_slug(string $slug): ?array
+{
+    $connection = db_connect();
+
+    $query = <<<'SQL'
+        SELECT
+            a.id,
+            a.title,
+            a.slug,
+            a.content,
+            a.meta_description,
+            a.published_at,
+            c.libelles AS category_name,
+            u.email AS author_email,
+            COALESCE(
+                NULLIF(a.first_image_url, ''),
+                (
+                    SELECT i.image_url
+                    FROM images i
+                    WHERE i.article_id = a.id
+                    ORDER BY i.created_at ASC, i.id ASC
+                    LIMIT 1
+                )
+            ) AS main_image_url
+        FROM articles a
+        LEFT JOIN categories c ON c.id = a.category_id
+        LEFT JOIN users u ON u.id = a.author_id
+        WHERE a.slug = $1
+          AND a.is_active = TRUE
+          AND a.published_at IS NOT NULL
+          AND a.published_at <= NOW()
+        LIMIT 1
+    SQL;
+
+    $result = pg_query_params($connection, $query, [$slug]);
+
+    if ($result === false) {
+        return null;
+    }
+
+    $article = pg_fetch_assoc($result);
+
+    return $article === false ? null : $article;
+}
+
+/**
+ * @return array<int, array<string, mixed>>
+ */
+function get_article_images_by_article_id(int $articleId): array
+{
+    $connection = db_connect();
+
+    $query = <<<'SQL'
+        SELECT
+            i.id,
+            i.image_url,
+            COALESCE(NULLIF(i.alt_text, ''), 'Image article') AS alt_text,
+            i.created_at
+        FROM images i
+        WHERE i.article_id = $1
+        ORDER BY i.created_at ASC, i.id ASC
+    SQL;
+
+    $result = pg_query_params($connection, $query, [$articleId]);
 
     if ($result === false) {
         return [];
