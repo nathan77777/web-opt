@@ -35,7 +35,7 @@ VALUES
         1,
         TRUE,
         NOW (),
-        'https://example.com/images/iran-energy.jpg'
+        'iran-militaire-3.jpg'
     ),
     -- 2
     (
@@ -47,7 +47,7 @@ VALUES
         1,
         TRUE,
         NOW (),
-        'https://example.com/images/missiles.jpg'
+        'iran-militaire-1.jpg'
     ),
     -- 3
     (
@@ -59,7 +59,7 @@ VALUES
         1,
         TRUE,
         NOW (),
-        'https://example.com/images/g7.jpg'
+        'iran-diplomatie-2.jpg'
     ),
     -- 4
     (
@@ -71,7 +71,7 @@ VALUES
         1,
         TRUE,
         NOW (),
-        'https://example.com/images/diplomacy.jpg'
+        'iran-diplomatie-1.jpg'
     ),
     -- 5
     (
@@ -83,7 +83,7 @@ VALUES
         1,
         TRUE,
         NOW (),
-        'https://example.com/images/oil.jpg'
+        'iran-economie-1.jpeg'
     ),
     -- 6
     (
@@ -95,7 +95,7 @@ VALUES
         1,
         TRUE,
         NOW (),
-        'https://example.com/images/map.jpg'
+        'iran-economie-2.jpg'
     );
 
 -- =========================
@@ -106,31 +106,31 @@ INSERT INTO
 VALUES
     (
         1,
-        'https://example.com/images/iran-energy.jpg',
+        'iran-militaire-3.jpg',
         'Guerre en Iran - Infrastructure énergétique détruite'
     ),
     (
         2,
-        'https://example.com/images/missiles.jpg',
+        'iran-militaire-1.jpg',
         'Guerre Iran-Israël - Missiles iraniens en lancement'
     ),
     (
         3,
-        'https://example.com/images/g7.jpg',
+        'iran-diplomatie-2.jpg',
         'Guerre en Iran - Réunion du G7 sur le conflit iranien'
     ),
     (
         4,
-        'https://example.com/images/diplomacy.jpg',
+        'iran-diplomatie-1.jpg',
         'Guerre en Iran - Négociations diplomatiques USA-Iran'
     ),
     (
         5,
-        'https://example.com/images/oil.jpg',
+        'iran-economie-1.jpeg',
         'Guerre en Iran - Impact sur les prix du pétrole'
     ),
     (
         6,
-        'https://example.com/images/map.jpg',
+        'iran-economie-2.jpg',
         'Guerre en Iran - Carte du Moyen-Orient et extension du conflit'
     );
