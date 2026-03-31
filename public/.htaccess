@@ -3,11 +3,6 @@ Options +FollowSymlinks
 RewriteEngine On
 
 # ============================================
-# SITEMAP
-# ============================================
-RewriteRule ^sitemap\.xml$ sitemap.xml.php [L]
-
-# ============================================
 # FRONTOFFICE — Liste des articles
 # ============================================
 RewriteRule ^guerre-iran/?$ frontoffice/articles_list.php [L]
