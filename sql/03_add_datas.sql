@@ -71,7 +71,7 @@ VALUES
         1,
         TRUE,
         NOW (),
-        'iran-diplomatie-1.jpg'
+        'iran-diplomatie-1.jpeg'
     ),
     -- 5
     (

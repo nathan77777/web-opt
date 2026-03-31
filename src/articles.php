@@ -5,6 +5,75 @@ declare(strict_types=1);
 require_once __DIR__ . '/database.php';
 
 /**
+ * Resolve an image URL stored in DB to a usable public path.
+ *
+ * Supported data formats:
+ * - Uploaded files: /uploads/articles/file.jpg
+ * - Seeded script files: file.jpg (resolved to /assets/images/file.jpg)
+ * - External URLs: https://...
+ */
+function resolve_article_image_url(?string $rawUrl): ?string
+{
+    $rawUrl = trim((string) $rawUrl);
+
+    if ($rawUrl === '') {
+        return null;
+    }
+
+    // Keep fully-qualified or protocol-relative URLs as-is.
+    if (preg_match('#^(?:https?:)?//#i', $rawUrl) === 1) {
+        return $rawUrl;
+    }
+
+    $normalized = ltrim($rawUrl, '/');
+    $basename = basename($normalized);
+
+    $candidates = [];
+
+    if (str_starts_with($normalized, 'uploads/')) {
+        $candidates[] = '/' . $normalized;
+        $candidates[] = '/assets/images/' . $basename;
+    } elseif (str_starts_with($normalized, 'assets/images/')) {
+        $candidates[] = '/' . $normalized;
+        $candidates[] = '/uploads/articles/' . $basename;
+        $candidates[] = '/uploads/' . $basename;
+    } elseif (str_contains($normalized, '/')) {
+        $candidates[] = '/' . $normalized;
+        $candidates[] = '/uploads/articles/' . $basename;
+        $candidates[] = '/assets/images/' . $basename;
+    } else {
+        $candidates[] = '/assets/images/' . $normalized;
+        $candidates[] = '/uploads/articles/' . $normalized;
+    }
+
+    $uniqueCandidates = [];
+    foreach ($candidates as $candidate) {
+        if (!in_array($candidate, $uniqueCandidates, true)) {
+            $uniqueCandidates[] = $candidate;
+        }
+    }
+
+    $projectRoot = dirname(__DIR__);
+
+    foreach ($uniqueCandidates as $candidate) {
+        if (str_starts_with($candidate, '/uploads/')) {
+            $filePath = $projectRoot . '/uploads/' . ltrim(substr($candidate, strlen('/uploads/')), '/');
+        } elseif (str_starts_with($candidate, '/assets/images/')) {
+            $filePath = $projectRoot . '/public/assets/images/' . ltrim(substr($candidate, strlen('/assets/images/')), '/');
+        } else {
+            continue;
+        }
+
+        if (is_file($filePath)) {
+            return $candidate;
+        }
+    }
+
+    // If no file exists yet, return the first candidate to keep rendering deterministic.
+    return $uniqueCandidates[0] ?? null;
+}
+
+/**
  * @return array<int, array<string, mixed>>
  */
 function get_articles_with_categories(): array
@@ -58,7 +127,14 @@ function get_frontoffice_articles(): array
         return [];
     }
 
-    return pg_fetch_all($result) ?: [];
+    $articles = pg_fetch_all($result) ?: [];
+
+    foreach ($articles as &$article) {
+        $article['main_image_url'] = resolve_article_image_url((string) ($article['main_image_url'] ?? ''));
+    }
+    unset($article);
+
+    return $articles;
 }
 
 /**
@@ -106,7 +182,13 @@ function get_frontoffice_article_by_slug(string $slug): ?array
 
     $article = pg_fetch_assoc($result);
 
-    return $article === false ? null : $article;
+    if ($article === false) {
+        return null;
+    }
+
+    $article['main_image_url'] = resolve_article_image_url((string) ($article['main_image_url'] ?? ''));
+
+    return $article;
 }
 
 /**
@@ -133,7 +215,14 @@ function get_article_images_by_article_id(int $articleId): array
         return [];
     }
 
-    return pg_fetch_all($result) ?: [];
+    $images = pg_fetch_all($result) ?: [];
+
+    foreach ($images as &$image) {
+        $image['image_url'] = resolve_article_image_url((string) ($image['image_url'] ?? ''));
+    }
+    unset($image);
+
+    return $images;
 }
 
 
@@ -197,7 +286,14 @@ function getArticleImages(PDO $pdo, int $article_id): array
         ORDER BY created_at ASC
     ");
     $stmt->execute([':article_id' => $article_id]);
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $images = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($images as &$image) {
+        $image['image_url'] = resolve_article_image_url((string) ($image['image_url'] ?? ''));
+    }
+    unset($image);
+
+    return $images;
 }
 
 
