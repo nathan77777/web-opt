@@ -1,0 +1,8 @@
+Options +FollowSymlinks
+RewriteEngine on
+RewriteRule ^pages/article-([_a-z0-9-]+)$ frontoffice/article_details.php?slug=$1 [QSA,L,NC]
+
+
+Options +FollowSymlinks
+RewriteEngine On
+RewriteRule ^guerre-iran$ frontoffice/articles_list.php [L]

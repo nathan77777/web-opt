@@ -38,7 +38,7 @@ $error = $_GET['error'] ?? null;
             <button type="submit">Connexion</button>
         </form>
 
-        <a class="front-link" href="/frontoffice/">Voir le frontoffice</a>
+        <a class="front-link" href="/guerre-iran">Voir le frontoffice</a>
     </main>
 </body>
 

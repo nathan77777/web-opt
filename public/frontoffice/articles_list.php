@@ -30,7 +30,7 @@ $articles = get_frontoffice_articles();
                 <?php foreach ($articles as $article): ?>
                     <article class="card">
                         <?php if (!empty($article['main_image_url'])): ?>
-                            <a class="cover-link" href="article_details.php?slug=<?= urlencode((string) $article['slug']) ?>">
+                            <a class="cover-link" href="/pages/article-<?= rawurlencode((string) $article['slug']) ?>">
                                 <img class="cover"
                                     src="<?= htmlspecialchars((string) $article['main_image_url'], ENT_QUOTES, 'UTF-8') ?>"
                                     alt="Image principale de <?= htmlspecialchars((string) $article['title'], ENT_QUOTES, 'UTF-8') ?>"
@@ -41,13 +41,13 @@ $articles = get_frontoffice_articles();
                         <span
                             class="category"><?= htmlspecialchars((string) ($article['category_name'] ?? 'Sans categorie'), ENT_QUOTES, 'UTF-8') ?></span>
                         <h2>
-                            <a class="title-link" href="article_details.php?slug=<?= urlencode((string) $article['slug']) ?>">
+                            <a class="title-link" href="/pages/article-<?= rawurlencode((string) $article['slug']) ?>">
                                 <?= htmlspecialchars((string) $article['title'], ENT_QUOTES, 'UTF-8') ?>
                             </a>
                         </h2>
                         <p class="slug">Slug: <?= htmlspecialchars((string) $article['slug'], ENT_QUOTES, 'UTF-8') ?></p>
                         <p><?= htmlspecialchars((string) $article['meta_description'], ENT_QUOTES, 'UTF-8') ?></p>
-                        <a class="read-more" href="article_details.php?slug=<?= urlencode((string) $article['slug']) ?>">Lire
+                        <a class="read-more" href="/pages/article-<?= rawurlencode((string) $article['slug']) ?>">Lire
                             l'article</a>
                     </article>
                 <?php endforeach; ?>

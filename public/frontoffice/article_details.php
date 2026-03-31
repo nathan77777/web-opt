@@ -63,7 +63,7 @@ if ($article !== null) {
 
 <body>
     <main class="wrapper">
-        <a class="back-link" href="/frontoffice/">&larr; Retour a la liste des articles</a>
+        <a class="back-link" href="/guerre-iran">&larr; Retour a la liste des articles</a>
 
         <?php if ($article === null): ?>
             <section class="not-found">
@@ -99,7 +99,8 @@ if ($article !== null) {
                 <section class="content">
                     <h2>Contenu</h2>
                     <div class="content-text">
-                        <?= nl2br(htmlspecialchars((string) $article['content'], ENT_QUOTES, 'UTF-8')) ?></div>
+                        <?= nl2br(htmlspecialchars((string) $article['content'], ENT_QUOTES, 'UTF-8')) ?>
+                    </div>
                 </section>
 
                 <section class="gallery">
